@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 const app = express();
 app.use(express.static("public"));
@@ -18,27 +20,31 @@ app.get("/", (req, res) => {
 
 app.post("/signIn", (req, res) => {
     const { username, password } = req.body;
-    const newUser = { username: username, password: password };
+    let inputs = { username: username, password: password };
 
-    const userFound = UsersDB.find(user => user.username === newUser.username);
-    
-    if (userFound !== undefined) {
-        const userToSignIn = UsersDB.find(user => user.username === newUser.username && user.password === newUser.password);
-        if (userToSignIn !== undefined) {
-            console.log("Signed in succesfully!");
-        } else {
-            console.log("User with username: " + newUser.username + " founded. Password not correct");
-        }
-        
-    } else {
-        UsersDB.push(newUser);
+    const userFound = UsersDB.find(user => user.username === inputs.username);
+
+    if (userFound !== undefined) { // Sign in user:
+        // const userToSignIn = UsersDB.find(user => user.username === inputs.username);
+
+        // Check password: 
+        bcrypt.compare(inputs.password, userFound.password, function (err, result) {
+            if (result) {
+                console.log("Correct user: signed in successfully!");
+            } else {
+                console.log("Invalid password!");
+            }
+        });
+
+    } else { //Create user: 
+        bcrypt.hash(inputs.password, saltRounds, function (err, hash) {
+            inputs.password = hash;
+            UsersDB.push(inputs);
+        });
         console.log("Added new user!");
     }
+    console.log(UsersDB);
 });
-
-function checkUserAndPass(username, password) {
-    
-}
 
 app.listen(3000, () => {
     console.log("server started on port 3000");
