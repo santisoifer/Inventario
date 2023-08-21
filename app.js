@@ -1,14 +1,26 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
+require('dotenv').config()
+const session = require("express-session");
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const app = express();
 app.use(express.static("public"));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// ? Cuando lo pase a db (IMPORTANTE: const userSchema = new mongoose.Schema({}), para que pueda agregar plugins):
+// mySchema.plugin(passportLocalMongoose);
 
 let UsersDB = [
     { username: "admin", password: "supersecretPassw0rdadmin" }
@@ -21,29 +33,6 @@ app.get("/", (req, res) => {
 app.post("/signIn", (req, res) => {
     const { username, password } = req.body;
     let inputs = { username: username, password: password };
-
-    const userFound = UsersDB.find(user => user.username === inputs.username);
-
-    if (userFound !== undefined) { // Sign in user:
-        // const userToSignIn = UsersDB.find(user => user.username === inputs.username);
-
-        // Check password: 
-        bcrypt.compare(inputs.password, userFound.password, function (err, result) {
-            if (result) {
-                console.log("Correct user: signed in successfully!");
-            } else {
-                console.log("Invalid password!");
-            }
-        });
-
-    } else { //Create user: 
-        bcrypt.hash(inputs.password, saltRounds, function (err, hash) {
-            inputs.password = hash;
-            UsersDB.push(inputs);
-        });
-        console.log("Added new user!");
-    }
-    console.log(UsersDB);
 });
 
 app.listen(3000, () => {
