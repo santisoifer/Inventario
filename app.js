@@ -32,6 +32,14 @@ userSchema.plugin(passportLocalMongoose);
 
 const User = mongoose.model("User", userSchema);
 
+const itemSchema = {
+    name: String,
+    brand: String,
+    quantity: Number
+}
+
+const Item = mongoose.model("Item", itemSchema);
+
 passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
@@ -43,18 +51,6 @@ app.get("/", (req, res) => {
 
 app.get("/login", (req, res) => {
     res.render("login");
-});
-
-app.get("/register", (req, res) => {
-    res.render("register");
-});
-
-app.get("/inventario", (req, res) => {
-    if (req.isAuthenticated()) {
-        res.render("index");
-    } else {
-        res.redirect("/login")
-    }
 });
 
 app.post("/login", (req, res) => {
@@ -76,6 +72,10 @@ app.post("/login", (req, res) => {
 
 });
 
+app.get("/register", (req, res) => {
+    res.render("register");
+});
+
 app.post("/register", (req, res) => {
     User.register({username: req.body.username, products:[]}, req.body.password, (err, user) => {
         if (!err) {
@@ -87,6 +87,23 @@ app.post("/register", (req, res) => {
             res.redirect("/register");
         }
     });
+});
+
+app.get("/inventario", (req, res) => {
+    if (req.isAuthenticated()) {
+        res.render("index");
+    } else {
+        res.redirect("/login")
+    }
+});
+
+app.get("/addItem", (req, res) => {
+    res.render(addItem);
+});
+
+app.post("/addItem", (req, res) => {
+    //TODO: crear new item en base al form y guardarlo. DOCS: 
+    // https://mongoosejs.com/docs/api/model.html
 });
 
 app.post("/logout", (req, res) => {

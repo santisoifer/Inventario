@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    <h1>Index</h1>
+    <h1>Inventario</h1>
+    <a href="/addItem"><button type="button">Add item</button></a>
+
+    <div class="item-container" style="border: 3px solid black; width: 200px; padding: 7px;">
+        <h3>Elemento</h3>
+        <img src="https://picsum.photos/200">
+        <p>Brand: Hellmans</p>
+        <p>5</p>
+        <!--TODO: boton de editar-->
+    </div>
+
     <form action="/logout" method="post">
         <button type="submit">Log Out</button>
     </form>
 </body>
+
 </html>
