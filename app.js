@@ -90,8 +90,13 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-    req.logOut();
-    res.redirect("/")
+    req.logOut(err => {
+        if (!err) {
+            res.redirect("/");
+        } else {
+            return err;
+        }
+    });
 });
 
 app.listen(3000, () => {
