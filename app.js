@@ -21,6 +21,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.connect("mongodb://127.0.0.1:27017/inventario");
+// https://mongoosejs.com/docs/api/model.html
 
 const userSchema = new mongoose.Schema({
     username: String,
@@ -77,7 +78,7 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-    User.register({username: req.body.username, products:[]}, req.body.password, (err, user) => {
+    User.register({ username: req.body.username, products: [] }, req.body.password, (err, user) => {
         if (!err) {
             passport.authenticate("local")(req, res, () => {
                 res.redirect("/inventario");
@@ -92,7 +93,7 @@ app.post("/register", (req, res) => {
 app.get("/inventario", async (req, res) => {
     if (req.isAuthenticated()) {
         const products = await Item.find({});
-        res.render("index", {products: products});
+        res.render("index", { products: products });
     } else {
         res.redirect("/login")
     }
@@ -103,18 +104,34 @@ app.get("/addItem", (req, res) => {
 });
 
 app.post("/addItem", (req, res) => {
-    //TODO: crear new item en base al form y guardarlo. DOCS: 
-    // https://mongoosejs.com/docs/api/model.html
-    
-    const {productName, productBrand, productQuantity} = req.body;
-    
+    const { productName, productBrand, productQuantity } = req.body;
+
     const newItem = new Item({
         name: productName,
         brand: productBrand,
-        quantity:productQuantity
+        quantity: productQuantity
     });
 
     newItem.save();
+    res.redirect("/");
+});
+
+app.post("/changeItem", async (req, res) => {
+    const { productId } = req.body;
+    const productToEdit = await Item.findById(productId).exec();
+    res.render("editItem", { product: productToEdit });
+});
+
+app.post("/editItem", async (req, res) => {
+    const { productName, productBrand, productQuantity, id } = req.body;
+    
+    await Item.findByIdAndUpdate(id, {
+        name: productName,
+        brand: productBrand,
+        quantity: productQuantity
+    }
+    );
+    console.log("Updated item with ID: " + id);
     res.redirect("/");
 });
 
