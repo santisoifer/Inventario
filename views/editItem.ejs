@@ -17,6 +17,10 @@
         <input type="number" name="productQuantity" id="productQuantity" value="<%=product.quantity%>">
         <br>
         <input type="hidden" name="id" value="<%=product._id%>">
+        <form action="/deleteItem" method="post">
+            <input type="hidden" name="id" value="<%=product._id%>">
+            <button type="submit">Eliminar producto</button>
+        </form>
         <button type="submit">Editar</button>
     </form>
 </body>

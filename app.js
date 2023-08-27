@@ -92,8 +92,8 @@ app.post("/register", (req, res) => {
 
 app.get("/inventario", async (req, res) => {
     if (req.isAuthenticated()) {
-        const products = await Item.find({});
-        res.render("index", { products: products });
+        const products = await User.find({});
+        res.render("index", { products: products.products });
     } else {
         res.redirect("/login")
     }
@@ -103,47 +103,55 @@ app.get("/addItem", (req, res) => {
     res.render("addItem");
 });
 
-app.post("/addItem", (req, res) => {
-    const { productName, productBrand, productQuantity } = req.body;
+//! ERROR URGENTE: cuando agrego los items los agrego a la db de productos generales, no a la de cada user. Resolver URGENTE
+// app.post("/addItem", (req, res) => {
+//     const { productName, productBrand, productQuantity } = req.body;
 
-    const newItem = new Item({
-        name: productName,
-        brand: productBrand,
-        quantity: productQuantity
-    });
+//     const newItem = new Item({
+//         name: productName,
+//         brand: productBrand,
+//         quantity: productQuantity
+//     });
 
-    newItem.save();
-    res.redirect("/");
-});
+//     newItem.save();
+//     res.redirect("/");
+// });
 
-app.post("/changeItem", async (req, res) => {
-    const { productId } = req.body;
-    const productToEdit = await Item.findById(productId).exec();
-    res.render("editItem", { product: productToEdit });
-});
+// app.post("/changeItem", async (req, res) => {
+//     const { productId } = req.body;
+//     const productToEdit = await Item.findById(productId).exec();
+//     res.render("editItem", { product: productToEdit });
+// });
 
-app.post("/editItem", async (req, res) => {
-    const { productName, productBrand, productQuantity, id } = req.body;
+// app.post("/editItem", async (req, res) => {
+//     const { productName, productBrand, productQuantity, id } = req.body;
     
-    await Item.findByIdAndUpdate(id, {
-        name: productName,
-        brand: productBrand,
-        quantity: productQuantity
-    }
-    );
-    console.log("Updated item with ID: " + id);
-    res.redirect("/");
-});
+//     await Item.findByIdAndUpdate(id, {
+//         name: productName,
+//         brand: productBrand,
+//         quantity: productQuantity
+//     }
+//     );
+//     console.log("Updated item with ID: " + id);
+//     res.redirect("/");
+// });
 
-app.post("/logout", (req, res) => {
-    req.logOut(err => {
-        if (!err) {
-            res.redirect("/");
-        } else {
-            return err;
-        }
-    });
-});
+// app.post("/deleteItem", async (req, res) => {
+//     const productId = req.body.id;
+//     console.log(productId);
+//     Item.findByIdAndDelete(productId).exec();
+//     res.redirect("/");
+// });
+
+// app.post("/logout", (req, res) => {
+//     req.logOut(err => {
+//         if (!err) {
+//             res.redirect("/");
+//         } else {
+//             return err;
+//         }
+//     });
+// });
 
 app.listen(3000, () => {
     console.log("server started on port 3000");
