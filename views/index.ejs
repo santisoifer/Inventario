@@ -11,17 +11,18 @@
     <h1>Inventario</h1>
     <a href="/addItem"><button type="button">Add item</button></a>
 
-    <div class="item-container" style="border: 3px solid black; width: 200px; padding: 7px;">
-        <h3>Elemento</h3>
-        <img src="https://picsum.photos/200">
-        <p>Brand: Hellmans</p>
-        <p>5</p>
-        <!--TODO: boton de editar-->
-    </div>
-
-    <form action="/logout" method="post">
-        <button type="submit">Log Out</button>
-    </form>
+    <% for( let i=0; i < products.length; i++ ) { %>
+        <div class="item-container" style="border: 3px solid black; width: 200px; padding: 7px;">
+            <h3><%= products[i].name %></h3>
+            <img src="https://picsum.photos/200">
+            <p><%= products[i].brand %></p>
+            <p><%= products[i].quantity %></p>
+            <!--TODO: boton de editar-->
+        </div>
+        <% } %>
+            <form action="/logout" method="post">
+                <button type="submit">Log Out</button>
+            </form>
 </body>
 
 </html>

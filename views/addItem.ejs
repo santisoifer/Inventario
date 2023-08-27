@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add new item</title>
+    <title>Agregar nuevo producto</title>
 </head>
+
 <body>
     <form action="/addItem" method="post">
-        <!--TODO: Hacer el form para insertar nuevo item-->
+        <label for="productName">Nombre del producto:</label>
+        <input type="text" name="productName" id="productName">
+        <br>
+        <label for="productBrand">Nombre de la marca:</label>
+        <input type="text" name="productBrand" id="productBrand">
+        <br>
+        <label for="productQuantity">Cantidad:</label>
+        <input type="number" name="productQuantity" id="productQuantity">
+        <br>
+        <button type="submit">Agregar nuevo producto al inventario</button>
     </form>
 </body>
+
 </html>

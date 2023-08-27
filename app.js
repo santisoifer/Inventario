@@ -89,21 +89,33 @@ app.post("/register", (req, res) => {
     });
 });
 
-app.get("/inventario", (req, res) => {
+app.get("/inventario", async (req, res) => {
     if (req.isAuthenticated()) {
-        res.render("index");
+        const products = await Item.find({});
+        res.render("index", {products: products});
     } else {
         res.redirect("/login")
     }
 });
 
 app.get("/addItem", (req, res) => {
-    res.render(addItem);
+    res.render("addItem");
 });
 
 app.post("/addItem", (req, res) => {
     //TODO: crear new item en base al form y guardarlo. DOCS: 
     // https://mongoosejs.com/docs/api/model.html
+    
+    const {productName, productBrand, productQuantity} = req.body;
+    
+    const newItem = new Item({
+        name: productName,
+        brand: productBrand,
+        quantity:productQuantity
+    });
+
+    newItem.save();
+    res.redirect("/");
 });
 
 app.post("/logout", (req, res) => {
