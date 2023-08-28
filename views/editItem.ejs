@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar prodcuto</title>
 </head>
+
 <body>
     <form action="/editItem" method="post">
         <label for="productName">Nombre del producto:</label>
@@ -17,11 +19,12 @@
         <input type="number" name="productQuantity" id="productQuantity" value="<%=product.quantity%>">
         <br>
         <input type="hidden" name="id" value="<%=product._id%>">
+        <button type="submit">Editar</button>
         <form action="/deleteItem" method="post">
             <input type="hidden" name="id" value="<%=product._id%>">
             <button type="submit">Eliminar producto</button>
         </form>
-        <button type="submit">Editar</button>
     </form>
 </body>
+
 </html>

@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 app.use(express.static("public"));
@@ -115,7 +116,8 @@ app.post("/addItem", async (req, res) => {
             const newItem = {
                 name: productName,
                 brand: productBrand,
-                quantity: productQuantity
+                quantity: productQuantity,
+                _id: uuidv4()
             };
             user.products.push(newItem);
             await user.save();
@@ -126,26 +128,47 @@ app.post("/addItem", async (req, res) => {
         console.error(error);
     }
 });
+
+app.post("/getIdToChange", async (req, res) => {
+    const { productId } = req.body;
+    const username = req.user.username
+    const user = await User.findOne({ username: username });
+    const userProducts = user.products;
+    const productToEdit = userProducts.find((item) => item._id === productId);
+    res.render("editItem", { product: productToEdit });
+});
+
+app.post("/editItem", async (req, res) => {
+
+    try {
+        const { productName, productBrand, productQuantity, id } = req.body;
+        const username = req.user.username
+        const user = await User.findOne({ username: username });
+        const userProducts = user.products;
+        const productToEdit = userProducts.find((item) => item._id === id[0]);
+
+        const index = userProducts.indexOf(productToEdit);
+        if (index !== -1) {
+            userProducts.splice(index, 1);
+        }
+
+        const itemChanged = {
+            name: productName,
+            brand: productBrand,
+            quantity: productQuantity,
+            _id: productToEdit._id
+        };
+        user.products.push(itemChanged);
+        await user.save();
+        console.log("Producto cambiado existosamente");
+        res.redirect("/");
+
+    } catch (error) {
+        console.error(error)
+    }
+});
+
 //! ERROR URGENTE: cuando agrego los items los agrego a la db de productos generales, no a la de cada user. Resolver URGENTE
-
-// app.post("/changeItem", async (req, res) => {
-//     const { productId } = req.body;
-//     const productToEdit = await Item.findById(productId).exec();
-//     res.render("editItem", { product: productToEdit });
-// });
-
-// app.post("/editItem", async (req, res) => {
-//     const { productName, productBrand, productQuantity, id } = req.body;
-
-//     await Item.findByIdAndUpdate(id, {
-//         name: productName,
-//         brand: productBrand,
-//         quantity: productQuantity
-//     }
-//     );
-//     console.log("Updated item with ID: " + id);
-//     res.redirect("/");
-// });
 
 // app.post("/deleteItem", async (req, res) => {
 //     const productId = req.body.id;

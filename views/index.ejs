@@ -17,7 +17,7 @@
             <img src="https://picsum.photos/200">
             <p><%= products[i].brand %></p>
             <p><%= products[i].quantity %></p>
-            <form action="/changeItem" method="post">
+            <form action="/getIdToChange" method="post">
                 <input type="hidden" name="productId" value="<%=products[i]._id%>">
                 <button type="submit">Editar</button>
             </form>
