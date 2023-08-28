@@ -92,8 +92,8 @@ app.post("/register", (req, res) => {
 
 app.get("/inventario", async (req, res) => {
     if (req.isAuthenticated()) {
-        const products = await User.find({});
-        res.render("index", { products: products.products });
+        const products = req.user.products;
+        res.render("index", { products: products });
     } else {
         res.redirect("/login")
     }
@@ -103,19 +103,30 @@ app.get("/addItem", (req, res) => {
     res.render("addItem");
 });
 
+app.post("/addItem", async (req, res) => {
+    try {
+        const { productName, productBrand, productQuantity } = req.body;
+        const username = req.user.username
+        const user = await User.findOne({ username: username });
+
+        if (!user) {
+            console.log(`Usuario username "${username}" no encontrado`);
+        } else {
+            const newItem = {
+                name: productName,
+                brand: productBrand,
+                quantity: productQuantity
+            };
+            user.products.push(newItem);
+            await user.save();
+            console.log("Producto agregado existosamente");
+            res.redirect("/");
+        }
+    } catch (error) {
+        console.error(error);
+    }
+});
 //! ERROR URGENTE: cuando agrego los items los agrego a la db de productos generales, no a la de cada user. Resolver URGENTE
-// app.post("/addItem", (req, res) => {
-//     const { productName, productBrand, productQuantity } = req.body;
-
-//     const newItem = new Item({
-//         name: productName,
-//         brand: productBrand,
-//         quantity: productQuantity
-//     });
-
-//     newItem.save();
-//     res.redirect("/");
-// });
 
 // app.post("/changeItem", async (req, res) => {
 //     const { productId } = req.body;
@@ -125,7 +136,7 @@ app.get("/addItem", (req, res) => {
 
 // app.post("/editItem", async (req, res) => {
 //     const { productName, productBrand, productQuantity, id } = req.body;
-    
+
 //     await Item.findByIdAndUpdate(id, {
 //         name: productName,
 //         brand: productBrand,
@@ -143,15 +154,15 @@ app.get("/addItem", (req, res) => {
 //     res.redirect("/");
 // });
 
-// app.post("/logout", (req, res) => {
-//     req.logOut(err => {
-//         if (!err) {
-//             res.redirect("/");
-//         } else {
-//             return err;
-//         }
-//     });
-// });
+app.post("/logout", (req, res) => {
+    req.logOut(err => {
+        if (!err) {
+            res.redirect("/");
+        } else {
+            return err;
+        }
+    });
+});
 
 app.listen(3000, () => {
     console.log("server started on port 3000");
