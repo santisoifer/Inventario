@@ -139,13 +139,12 @@ app.post("/getIdToChange", async (req, res) => {
 });
 
 app.post("/editItem", async (req, res) => {
-
     try {
         const { productName, productBrand, productQuantity, id } = req.body;
-        const username = req.user.username
+        const username = req.user.username;
         const user = await User.findOne({ username: username });
         const userProducts = user.products;
-        const productToEdit = userProducts.find((item) => item._id === id[0]);
+        const productToEdit = userProducts.find((item) => item._id === id);
 
         const index = userProducts.indexOf(productToEdit);
         if (index !== -1) {
@@ -168,14 +167,24 @@ app.post("/editItem", async (req, res) => {
     }
 });
 
-//! ERROR URGENTE: cuando agrego los items los agrego a la db de productos generales, no a la de cada user. Resolver URGENTE
+app.post("/deleteItem", async (req, res) => {
+    try {
+        const {id: productId} = req.body;
+        const username = req.user.username
+        const user = await User.findOne({ username: username });
+        const userProducts = user.products;
+        const productToDelete = userProducts.find((item) => item._id === productId);
 
-// app.post("/deleteItem", async (req, res) => {
-//     const productId = req.body.id;
-//     console.log(productId);
-//     Item.findByIdAndDelete(productId).exec();
-//     res.redirect("/");
-// });
+        const index = userProducts.indexOf(productToDelete);
+        userProducts.splice(index, 1);
+        console.log("Producto eliminado existosamente");
+        user.save();
+        res.redirect("/");
+
+    } catch (error) {
+        console.error(error)
+    }
+});
 
 app.post("/logout", (req, res) => {
     req.logOut(err => {
