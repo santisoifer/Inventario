@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <form action="/addItem" method="post">
+    <form action="/addItem" method="post" enctype="multipart/form-data">
         <label for="productName">Nombre del producto:</label>
         <input type="text" name="productName" id="productName">
         <br>
@@ -18,6 +18,8 @@
         <label for="productQuantity">Cantidad:</label>
         <input type="number" name="productQuantity" id="productQuantity">
         <br>
+        <label for="productImg">Imagen del producto:</label>
+        <input type="file" name="productImg" id="productImg"/>
         <button type="submit">Agregar nuevo producto al inventario</button>
     </form>
 </body>

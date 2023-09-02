@@ -6,7 +6,19 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
+const multer = require("multer");
+const path = require("path");
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "./public/data/uploads/")
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+    }
+});
+// const storage = multer.memoryStorage()
+const upload = multer({ storage: storage });
 
 const app = express();
 app.use(express.static("public"));
@@ -104,20 +116,21 @@ app.get("/addItem", (req, res) => {
     res.render("addItem");
 });
 
-app.post("/addItem", async (req, res) => {
+app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
     try {
         const { productName, productBrand, productQuantity } = req.body;
         const username = req.user.username
         const user = await User.findOne({ username: username });
 
         if (!user) {
-            console.log(`Usuario username "${username}" no encontrado`);
+            console.log(`Usuario con el username "${username}" no encontrado`);
         } else {
             const newItem = {
                 name: productName,
                 brand: productBrand,
                 quantity: productQuantity,
-                _id: uuidv4()
+                _id: uuidv4(),
+                imageName: req.file.filename !== undefined ? req.file.filename : undefined
             };
             user.products.push(newItem);
             await user.save();
@@ -169,7 +182,7 @@ app.post("/editItem", async (req, res) => {
 
 app.post("/deleteItem", async (req, res) => {
     try {
-        const {id: productId} = req.body;
+        const { id: productId } = req.body;
         const username = req.user.username
         const user = await User.findOne({ username: username });
         const userProducts = user.products;
@@ -195,6 +208,15 @@ app.post("/logout", (req, res) => {
         }
     });
 });
+
+//* TODO 1 : agregar imagenes (ver subida de imagenes a la db):
+// https://www.npmjs.com/package/multer
+//TODO 1.1: borrar foto cuando borro item
+//TODO 1.2: sacar fotos desde la pagina y subirla
+//TODO 2: agergar botón de recuerdame: 
+// https://www.passportjs.org/packages/passport-remember-me/
+//TODO 3: Emepezar con el UX/UI
+//TODO 4: Emepezar con el front
 
 app.listen(3000, () => {
     console.log("server started on port 3000");

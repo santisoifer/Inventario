@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
 <body>
     <h1>Inventario</h1>
-    <a href="/addItem"><button type="button">Add item</button></a>
-
-    <% for( let i=0; i < products.length; i++ ) { %>
+    <a href="/addItem"><button type="button">Agregar ítem</button></a>
+    
+    <% for (let i = 0; i < products.length; i++) { %>
         <div class="item-container" style="border: 3px solid black; width: 200px; padding: 7px;">
             <h3><%= products[i].name %></h3>
-            <img src="https://picsum.photos/200">
+            
+            <% if (products[i].imageName !== undefined) { %>
+                <img src="data/uploads/<%= products[i].imageName%>" style="max-width: 100%;">
+            <% } %>
+            
             <p><%= products[i].brand %></p>
             <p><%= products[i].quantity %></p>
+            
             <form action="/getIdToChange" method="post">
-                <input type="hidden" name="productId" value="<%=products[i]._id%>">
+                <input type="hidden" name="productId" value="<%= products[i]._id %>">
                 <button type="submit">Editar</button>
             </form>
+            
             <form action="/deleteItem" method="post">
-                <input type="hidden" name="productId" value="<%=products[i]._id%>">
+                <input type="hidden" name="productId" value="<%= products[i]._id %>">
                 <button type="submit">Eliminar</button>
             </form>
         </div>
-        <% } %>
-            <form action="/logout" method="post">
-                <button type="submit">Log Out</button>
-            </form>
+    <% } %>
+    
+    <form action="/logout" method="post">
+        <button type="submit">Cerrar sesión</button>
+    </form>
 </body>
-
 </html>
