@@ -14,11 +14,12 @@ const storage = multer.diskStorage({
         cb(null, "./public/data/uploads/")
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname)) //Appending extension
+        cb(null, Date.now() + path.extname(file.originalname));
     }
 });
-// const storage = multer.memoryStorage()
 const upload = multer({ storage: storage });
+const fs = require('fs');
+const { log } = require("console");
 
 const app = express();
 app.use(express.static("public"));
@@ -130,7 +131,7 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
                 brand: productBrand,
                 quantity: productQuantity,
                 _id: uuidv4(),
-                imageName: req.file.filename !== undefined ? req.file.filename : undefined
+                imageName: req.file !== undefined ? req.file.filename : ""
             };
             user.products.push(newItem);
             await user.save();
@@ -168,7 +169,8 @@ app.post("/editItem", async (req, res) => {
             name: productName,
             brand: productBrand,
             quantity: productQuantity,
-            _id: productToEdit._id
+            _id: productToEdit._id,
+            imageName: productToEdit.imageName !== undefined ? productToEdit.imageName : undefined
         };
         user.products.push(itemChanged);
         await user.save();
@@ -182,16 +184,28 @@ app.post("/editItem", async (req, res) => {
 
 app.post("/deleteItem", async (req, res) => {
     try {
-        const { id: productId } = req.body;
+        const { productId } = req.body;
         const username = req.user.username
         const user = await User.findOne({ username: username });
-        const userProducts = user.products;
-        const productToDelete = userProducts.find((item) => item._id === productId);
-
-        const index = userProducts.indexOf(productToDelete);
-        userProducts.splice(index, 1);
+        let userProducts = user.products;
+        const newUserProducts = userProducts.filter(item => {
+            if (item._id === productId) {
+                if (item.imageName !== "") {
+                    const nombreImagen = item.imageName;
+                    const rutaImagen = `${__dirname}/public/data/uploads/${nombreImagen}`;
+                    try {
+                        fs.unlinkSync(rutaImagen);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+                return false; // No incluir en el nuevo array
+            }
+            return true; // Mantener los demás 
+        });
+        user.products = newUserProducts;
+        await user.save();
         console.log("Producto eliminado existosamente");
-        user.save();
         res.redirect("/");
 
     } catch (error) {
@@ -211,7 +225,7 @@ app.post("/logout", (req, res) => {
 
 //* TODO 1 : agregar imagenes (ver subida de imagenes a la db):
 // https://www.npmjs.com/package/multer
-//TODO 1.1: borrar foto cuando borro item
+//* TODO 1.1: borrar foto cuando borro item
 //TODO 1.2: sacar fotos desde la pagina y subirla
 //TODO 2: agergar botón de recuerdame: 
 // https://www.passportjs.org/packages/passport-remember-me/
