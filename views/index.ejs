@@ -13,8 +13,10 @@
         <div class="item-container" style="border: 3px solid black; width: 200px; padding: 7px;">
             <h3><%= products[i].name %></h3>
             
-            <% if (products[i].imageName !== "") { %>
+            <% if (products[i].imageName !== "" && products[i].imgIsLocal) { %>
                 <img src="data/uploads/<%= products[i].imageName%>" style="max-width: 100%;">
+                <% } else if (products[i].imageName !== "") { %>
+                <img src="<%= products[i].imageName%>" style="max-width: 100%;">
             <% } %>
             
             <p><%= products[i].brand %></p>

@@ -119,20 +119,33 @@ app.get("/addItem", (req, res) => {
 
 app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
     try {
-        const { productName, productBrand, productQuantity } = req.body;
+        const { productName, productBrand, productQuantity, productImgURL } = req.body;
         const username = req.user.username
         const user = await User.findOne({ username: username });
 
         if (!user) {
             console.log(`Usuario con el username "${username}" no encontrado`);
         } else {
-            const newItem = {
-                name: productName,
-                brand: productBrand,
-                quantity: productQuantity,
-                _id: uuidv4(),
-                imageName: req.file !== undefined ? req.file.filename : ""
-            };
+            let newItem; 
+            if (productImgURL !== "") {
+                newItem = {
+                    name: productName,
+                    brand: productBrand,
+                    quantity: productQuantity,
+                    _id: uuidv4(),
+                    imageName: req.file !== undefined ? req.file.filename : productImgURL,
+                    imgIsLocal: false
+                };
+            } else {
+                newItem = {
+                    name: productName,
+                    brand: productBrand,
+                    quantity: productQuantity,
+                    _id: uuidv4(),
+                    imageName: req.file !== undefined ? req.file.filename : "",
+                    imgIsLocal: true
+                };
+            }
             user.products.push(newItem);
             await user.save();
             console.log("Producto agregado existosamente");
@@ -226,11 +239,13 @@ app.post("/logout", (req, res) => {
 //* TODO 1 : agregar imagenes (ver subida de imagenes a la db):
 // https://www.npmjs.com/package/multer
 //* TODO 1.1: borrar foto cuando borro item
-//TODO 1.2: sacar fotos desde la pagina y subirla
-//TODO 2: agergar botón de recuerdame: 
-// https://www.passportjs.org/packages/passport-remember-me/
+//! TODO 1.2: sacar fotos desde la pagina y subirla
+//* TODO 1.3: subir fotos desde url
+//TODO 2: Escanear qr
 //TODO 3: Emepezar con el UX/UI
 //TODO 4: Emepezar con el front
+//TODO 5: agergar botón de recuerdame: 
+// https://www.passportjs.org/packages/passport-remember-me/
 
 app.listen(3000, () => {
     console.log("server started on port 3000");
