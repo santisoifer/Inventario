@@ -19,10 +19,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 const fs = require('fs');
-const { log } = require("console");
+const html5Qrcode = require("html5-qrcode");
 
 const app = express();
 app.use(express.static("public"));
+app.use('/node_modules', express.static('node_modules'));
+
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -241,7 +243,7 @@ app.post("/logout", (req, res) => {
 //* TODO 1.1: borrar foto cuando borro item
 //! TODO 1.2: sacar fotos desde la pagina y subirla
 //* TODO 1.3: subir fotos desde url
-//TODO 2: Escanear qr
+//? TODO 2: Escanear qr
 //TODO 3: Emepezar con el UX/UI
 //TODO 4: Emepezar con el front
 //TODO 5: agergar botón de recuerdame: 

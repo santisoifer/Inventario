@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <script src="/node_modules/html5-qrcode/html5-qrcode.min.js"></script>
     <form action="/addItem" method="post" enctype="multipart/form-data">
         <label for="productName">Nombre del producto:</label>
         <input type="text" name="productName" id="productName">
@@ -20,11 +21,26 @@
         <br>
         <!-- TODO: Hacer que solo se pueda elegir una -->
         <label for="productImg">Imagen del producto:</label>
-        <input type="file" name="productImg" id="productImg"/>
+        <input type="file" name="productImg" id="productImg" accept="image/*" />
         <label for="productImgURL">Url de la imagen del producto:</label>
-        <input type="text" name="productImgURL" id="productImgURL"/>
+        <input type="text" name="productImgURL" id="productImgURL" />
         <button type="submit">Agregar nuevo producto al inventario</button>
     </form>
+
+    <p>O... seleccione elemento por qr: </p>
+    <div style="width: 500px" id="reader"></div>
+
+    <script>
+        // TODO: Hacer que se completen los datos si se encontro el gtin. Sino, mostrar cartel de que hay que agregarlo
+        function onScanSuccess(decodedText, decodedResult) {
+            // Handle on success condition with the decoded text or result.
+            console.log(`Scan result: ${decodedText}`, decodedResult);
+        }
+
+        const html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 20, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
 </body>
 
 </html>
