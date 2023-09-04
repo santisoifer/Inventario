@@ -28,6 +28,7 @@ app.use('/node_modules', express.static('node_modules'));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -128,7 +129,7 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
         if (!user) {
             console.log(`Usuario con el username "${username}" no encontrado`);
         } else {
-            let newItem; 
+            let newItem;
             if (productImgURL !== "") {
                 newItem = {
                     name: productName,
@@ -156,6 +157,18 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
     } catch (error) {
         console.error(error);
     }
+});
+
+app.post("/addItemGTIN", async (req, res) => {
+    const decodedText = req.body.decodedText;
+    const decodedResult = req.body.decodedResult;
+
+    // Haz lo que necesites con los datos aquí
+    console.log(`Decoded Text: ${decodedText}`);
+    console.log(`Decoded Result: ${decodedResult}`);
+
+    // Envía una respuesta al cliente si es necesario
+    res.json({ message: 'Solicitud POST recibida con éxito' });
 });
 
 app.post("/getIdToChange", async (req, res) => {
@@ -240,16 +253,16 @@ app.post("/logout", (req, res) => {
 
 //* TODO 1 : agregar imagenes (ver subida de imagenes a la db):
 // https://www.npmjs.com/package/multer
-    //* TODO 1.1: borrar foto cuando borro item
-    //! TODO 1.2: sacar fotos desde la pagina y subirla
-    //* TODO 1.3: subir fotos desde url
-    //? TODO 2: Escanear qr
-    //* TODO 2.1: crear sistema de qr (objetos de db)
-    //TODO 2.2: poder agregar items:
-        //? TODO 2.2.1: una vez encontrado el gtin (escaneado qr) enviar form a url de /gtin
-        //TODO 2.2.2: con el gtin, buscar en la db y reenviar a /addItem con los values de nombre y brand
-        //TODO 2.2.3: el user agrega foto (opcional) y cantidad (obligtorio)
-    //TODO 2.3: agregar items (de casa)
+//* TODO 1.1: borrar foto cuando borro item
+//! TODO 1.2: sacar fotos desde la pagina y subirla
+//* TODO 1.3: subir fotos desde url
+// TODO 2: Escanear qr
+//* TODO 2.1: crear sistema de qr (objetos de db)
+//TODO 2.2: poder agregar items:
+//* TODO 2.2.1: una vez encontrado el gtin (escaneado qr) enviar form a url de /gtin
+//TODO 2.2.2: con el gtin, buscar en la db y reenviar a /addItem con los values de nombre y brand
+//TODO 2.2.3: el user agrega foto (opcional) y cantidad (obligtorio)
+//TODO 2.3: agregar items (de casa)
 //TODO 3: Emepezar con el UX/UI
 //TODO 4: Emepezar con el front
 //TODO 5: agergar botón de recuerdame: 
