@@ -24,11 +24,16 @@
         <input type="file" name="productImg" id="productImg" accept="image/*" />
         <label for="productImgURL">Url de la imagen del producto:</label>
         <input type="text" name="productImgURL" id="productImgURL" />
+        <input type="hidden" name="prodcutGTIN" id="prodcutGTIN">
         <button type="submit">Agregar nuevo producto al inventario</button>
     </form>
 
     <p>O... seleccione elemento por qr: </p>
     <div style="width: 500px" id="reader"></div>
+
+    <div class="displayMessage" id="message" style="display:none; border: 3px solid black; position: fixed; width: 300px; height: 200px;">
+        <p></p>
+    </div>
     
     <script src="scripts/addItemByQR.js"></script>
 </body>
