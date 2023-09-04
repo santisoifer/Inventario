@@ -52,7 +52,7 @@ const User = mongoose.model("User", userSchema);
 const itemSchema = {
     name: String,
     brand: String,
-    quantity: Number
+    gtin: Number
 }
 
 const Item = mongoose.model("Item", itemSchema);
@@ -240,10 +240,16 @@ app.post("/logout", (req, res) => {
 
 //* TODO 1 : agregar imagenes (ver subida de imagenes a la db):
 // https://www.npmjs.com/package/multer
-//* TODO 1.1: borrar foto cuando borro item
-//! TODO 1.2: sacar fotos desde la pagina y subirla
-//* TODO 1.3: subir fotos desde url
-//? TODO 2: Escanear qr
+    //* TODO 1.1: borrar foto cuando borro item
+    //! TODO 1.2: sacar fotos desde la pagina y subirla
+    //* TODO 1.3: subir fotos desde url
+    //? TODO 2: Escanear qr
+    //* TODO 2.1: crear sistema de qr (objetos de db)
+    //TODO 2.2: poder agregar items:
+        //? TODO 2.2.1: una vez encontrado el gtin (escaneado qr) enviar form a url de /gtin
+        //TODO 2.2.2: con el gtin, buscar en la db y reenviar a /addItem con los values de nombre y brand
+        //TODO 2.2.3: el user agrega foto (opcional) y cantidad (obligtorio)
+    //TODO 2.3: agregar items (de casa)
 //TODO 3: Emepezar con el UX/UI
 //TODO 4: Emepezar con el front
 //TODO 5: agergar botón de recuerdame: 
