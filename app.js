@@ -51,7 +51,8 @@ const User = mongoose.model("User", userSchema);
 const itemSchema = {
     name: String,
     brand: String,
-    gtin: Number
+    gtin: Number,
+    imgURL: String
 }
 
 const Item = mongoose.model("Item", itemSchema);
@@ -120,7 +121,7 @@ app.get("/addItem", (req, res) => {
 
 app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
     try {
-        const { productName, productBrand, productQuantity, productImgURL } = req.body;
+        const { productName, productBrand, productQuantity, productImgURL, productGTIN } = req.body;
         const username = req.user.username
         const user = await User.findOne({ username: username });
 
@@ -149,6 +150,17 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
             }
             user.products.push(newItem);
             await user.save();
+            if (productGTIN !== "") {
+                const newItemGTIN = new Item( {
+                    name: newItem.name,
+                    brand: newItem.brand,
+                    gtin: productGTIN,
+                    imgURL: productImgURL !== "" ? productImgURL : ""
+                });
+
+                await newItemGTIN.save();
+
+            }
             console.log("Producto agregado existosamente");
             res.redirect("/");
         }
@@ -160,7 +172,7 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
 app.post("/addItemGTIN", async (req, res) => {
     const productGTINToCheck = req.body.decodedText;
     const foundedItem = await Item.findOne({ gtin: productGTINToCheck }).exec();
-    res.json({foundedItem});
+    res.json({ foundedItem });
 });
 
 app.post("/getIdToChange", async (req, res) => {
@@ -210,7 +222,7 @@ app.post("/deleteItem", async (req, res) => {
         let userProducts = user.products;
         const newUserProducts = userProducts.filter(item => {
             if (item._id === productId) {
-                if (item.imageName !== "") {
+                if (item.imageName !== "" && item.imageName !== undefined) {
                     const nombreImagen = item.imageName;
                     const rutaImagen = `${__dirname}/public/data/uploads/${nombreImagen}`;
                     try {
@@ -252,8 +264,8 @@ app.post("/logout", (req, res) => {
 //* TODO 2.1: crear sistema de qr (objetos de db)
 //TODO 2.2: poder agregar items:
 //* TODO 2.2.1: una vez encontrado el gtin (escaneado qr) enviar form a url de /gtin
-//? TODO 2.2.2: con el gtin, buscar en la db y reenviar a /addItem con los values de nombre y brand
-//TODO 2.2.3: el user agrega foto (opcional) y cantidad (obligtorio)
+//* TODO 2.2.2: con el gtin, buscar en la db y reenviar a /addItem con los values de nombre y brand
+//* TODO 2.2.3: el user agrega foto (opcional) y cantidad (obligtorio)
 //TODO 2.3: agregar items (de casa)
 //TODO 3: Emepezar con el UX/UI
 //TODO 4: Emepezar con el front

@@ -23,11 +23,13 @@ function onScanSuccess(decodedText, decodedResult) {
                 brand: document.getElementById("productBrand"),
                 divMessage: document.querySelector("#message"),
                 message: document.querySelector("#message p"),
+                productImgURL: document.querySelector("#productImgURL"),
                 gtinInput: document.querySelector("#productGTIN")
             }
             if (data.foundedItem !== null) {
                 htmlElements.name.value = data.foundedItem.name;
                 htmlElements.brand.value = data.foundedItem.brand;
+                htmlElements.productImgURL.value = data.foundedItem.imgURL;
 
                 htmlElements.message.textContent = "Elemento encontrado!"
                 htmlElements.divMessage.style.display = "block";
@@ -37,6 +39,7 @@ function onScanSuccess(decodedText, decodedResult) {
                 }, 3500);
             } else {
                 // Si no se encontró ningun item (cartel y enviar gtin para agregar a db)
+                htmlElements.gtinInput.value = decodedText;
                 htmlElements.message.textContent = "Elemento no encontrado! Al agregarlo, se añadira a la base de datos."
                 htmlElements.divMessage.style.display = "block";
                 htmlElements.gtinInput.value = dataToSend.decodedText;
