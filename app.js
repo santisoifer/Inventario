@@ -35,7 +35,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://127.0.0.1:27017/inventario");
+mongoose.connect("mongodb+srv://" + process.env.MONGO_USER + ":" + process.env.MONGO_PASSWORD + "@inventario.3mgos1g.mongodb.net/inventario");
 // https://mongoosejs.com/docs/api/model.html
 
 const userSchema = new mongoose.Schema({
@@ -61,6 +61,8 @@ passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
     res.redirect("/inventario");
@@ -260,9 +262,9 @@ app.post("/logout", (req, res) => {
 //* TODO 1.1: borrar foto cuando borro item
 //* TODO 1.2: sacar fotos desde la pagina y subirla -> desde algunos dispositivos se puede sacar una foto y usar esa
 //* TODO 1.3: subir fotos desde url
-// TODO 2: Escanear qr
+//* TODO 2: Escanear qr
 //* TODO 2.1: crear sistema de qr (objetos de db)
-//TODO 2.2: poder agregar items:
+//* TODO 2.2: poder agregar items:
 //* TODO 2.2.1: una vez encontrado el gtin (escaneado qr) enviar form a url de /gtin
 //* TODO 2.2.2: con el gtin, buscar en la db y reenviar a /addItem con los values de nombre y brand
 //* TODO 2.2.3: el user agrega foto (opcional) y cantidad (obligtorio)
@@ -272,6 +274,6 @@ app.post("/logout", (req, res) => {
 //TODO 5: agergar botón de recuerdame: 
 // https://www.passportjs.org/packages/passport-remember-me/
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log("server started on port 3000");
 });
