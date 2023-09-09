@@ -1,5 +1,7 @@
 function onScanSuccess(decodedText, decodedResult) {
     // Qué hacer si se detecta qr
+    const scannedAudio = new Audio('../audio/beep_sound.mp3');
+    scannedAudio.play();
     const dataToSend = {
         decodedText: decodedText,
         decodedResult: decodedResult
