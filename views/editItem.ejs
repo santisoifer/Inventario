@@ -18,6 +18,9 @@
         <label for="productQuantity">Cantidad:</label>
         <input type="number" name="productQuantity" id="productQuantity" value="<%=product.quantity%>">
         <br>
+        <label for="productMinQuantity">Cantidad mínima:</label>
+        <input type="number" name="productMinQuantity" id="productMinQuantity" value="<%=product.minQuantity%>">
+        <br>
         <input type="hidden" name="id" value="<%=product._id%>">
         <button type="submit">Editar</button>
     </form>

@@ -123,7 +123,7 @@ app.get("/addItem", (req, res) => {
 
 app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
     try {
-        const { productName, productBrand, productQuantity, productImgURL, productGTIN } = req.body;
+        const { productName, productBrand, productQuantity, productImgURL, productGTIN, productMinQuantity } = req.body;
         const username = req.user.username
         const user = await User.findOne({ username: username });
 
@@ -138,7 +138,8 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
                     quantity: productQuantity,
                     _id: uuidv4(),
                     imageName: req.file !== undefined ? req.file.filename : productImgURL,
-                    imgIsLocal: false
+                    imgIsLocal: false,
+                    minQuantity: productMinQuantity
                 };
             } else {
                 newItem = {
@@ -147,7 +148,8 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
                     quantity: productQuantity,
                     _id: uuidv4(),
                     imageName: req.file !== undefined ? req.file.filename : "",
-                    imgIsLocal: true
+                    imgIsLocal: true,
+                    minQuantity: productMinQuantity
                 };
             }
             user.products.push(newItem);
@@ -188,7 +190,7 @@ app.post("/getIdToChange", async (req, res) => {
 
 app.post("/editItem", async (req, res) => {
     try {
-        const { productName, productBrand, productQuantity, id } = req.body;
+        const { productName, productBrand, productQuantity, id, productMinQuantity } = req.body;
         const username = req.user.username;
         const user = await User.findOne({ username: username });
         const userProducts = user.products;
@@ -204,7 +206,8 @@ app.post("/editItem", async (req, res) => {
             brand: productBrand,
             quantity: productQuantity,
             _id: productToEdit._id,
-            imageName: productToEdit.imageName !== undefined ? productToEdit.imageName : undefined
+            imageName: productToEdit.imageName !== undefined ? productToEdit.imageName : undefined,
+            minQuantity: productMinQuantity
         };
         user.products.push(itemChanged);
         await user.save();
@@ -259,19 +262,25 @@ app.post("/logout", (req, res) => {
 
 //* TODO 1 : agregar imagenes (ver subida de imagenes a la db):
 // https://www.npmjs.com/package/multer
-//* TODO 1.1: borrar foto cuando borro item
-//* TODO 1.2: sacar fotos desde la pagina y subirla -> desde algunos dispositivos se puede sacar una foto y usar esa
-//* TODO 1.3: subir fotos desde url
+//*     TODO 1.1: borrar foto cuando borro item
+//*     TODO 1.2: sacar fotos desde la pagina y subirla -> desde algunos dispositivos se puede sacar una foto y usar esa
+//*     TODO 1.3: subir fotos desde url
 //* TODO 2: Escanear qr
-//* TODO 2.1: crear sistema de qr (objetos de db)
-//* TODO 2.2: poder agregar items:
-//* TODO 2.2.1: una vez encontrado el gtin (escaneado qr) enviar form a url de /gtin
-//* TODO 2.2.2: con el gtin, buscar en la db y reenviar a /addItem con los values de nombre y brand
-//* TODO 2.2.3: el user agrega foto (opcional) y cantidad (obligtorio)
-//TODO 2.3: agregar items (de casa)
-//TODO 3: Emepezar con el UX/UI
-//TODO 4: Emepezar con el front
-//TODO 5: agergar botón de recuerdame: 
+//*     TODO 2.1: crear sistema de qr (objetos de db)
+//*     TODO 2.2: poder agregar items:
+//*         TODO 2.2.1: una vez encontrado el gtin (escaneado qr) enviar form a url de /gtin
+//*         TODO 2.2.2: con el gtin, buscar en la db y reenviar a /addItem con los values de nombre y brand
+//*         TODO 2.2.3: el user agrega foto (opcional) y cantidad (obligtorio)
+//* TODO 3: Agregar campo de stock mínimo en los items
+//TODO 4: Agregar botón que sea "Editar item", que en vez de agregar nuevo item, busca uno en la db por qr para cuando llegan nuevos prodcutos
+//TODO 5: Agregar botones de "Llegó la compra" y "Hacer la compra"
+//  TODO 5.1: Llegó la compra -> poder agregar items más rápido: escanear todos los prodcutos y despues agregarlos todos de una
+//  TODO 5.2: Hacer la compra -> en base al stock mínimo y stock actual, calcular cuántos hay que comprar
+//TODO 6: Emepezar con el UX/UI
+//TODO 7: Emepezar con el front
+//  TODO 7.1: poder elegir ente vistas (por ejemplo, una de cuadrados y otra de lista)
+//  TODO 7.2: poder ordenar los prodcutos en base a variables (stock, nombre, etc)
+//TODO 8: agregar items (de casa) -> para 1/10 aprox
 // https://www.passportjs.org/packages/passport-remember-me/
 
 app.listen(port, () => {
