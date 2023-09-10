@@ -20,24 +20,35 @@ function onScanSuccess(decodedText, decodedResult) {
             return response.json();
         })
         .then(data => {
+            const htmlElements = {
+                name: document.querySelector("#productName"),
+                brand: document.querySelector("#productBrand"),
+                quantity: document.querySelector("#productQuantity"),
+                minQuantity: document.querySelector("#productMinQuantity"),
+                imgUrl: document.querySelector("#productImgURL"),
+                productIDInput: document.querySelector("#productID"),
+                divMsgBox: document.querySelector("#msgBox"),
+                msgBox: document.querySelector("#msgBox p")
+            }
             if (data.product !== undefined) {
-                const htmlElements = {
-                    name: document.querySelector("#productName"),
-                    brand: document.querySelector("#productBrand"),
-                    quantity: document.querySelector("#productQuantity"),
-                    minQuantity: document.querySelector("#productMinQuantity"),
-                    imgUrl: document.querySelector("#productImgURL"),
-                    productIDInput: document.querySelector("#productID")
-                }
                 htmlElements.name.value = data.product.name;
                 htmlElements.brand.value = data.product.brand;
                 htmlElements.quantity.value = data.product.quantity;
                 htmlElements.minQuantity.value = data.product.minQuantity;
                 htmlElements.imgUrl.value = data.product.imageName;
                 htmlElements.productIDInput.value = data.product._id;
+
+                htmlElements.msgBox.textContent = "Elemento encontrado!"
+                htmlElements.divMsgBox.style.display = "block";
+                setTimeout(() => { htmlElements.divMsgBox.style.display = "none" }, 3500);
+
             } else {
-                // TODO: Agregar cartel que diga "redirigir a agregar producto"
-                console.log("No se encontro el producto");
+                htmlElements.msgBox.innerHTML = `Elemento no encontrado! <a href="/addItem"><button type="button">Agregar nuevo producto</button></a>`
+                htmlElements.divMsgBox.style.display = "block";
+
+                setTimeout(() => {
+                    htmlElements.divMsgBox.style.display = "none";
+                }, 3500);
             }
         })
         .catch(error => {

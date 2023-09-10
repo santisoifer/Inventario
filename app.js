@@ -296,7 +296,7 @@ app.post("/logout", (req, res) => {
 //*         TODO 2.2.2: con el gtin, buscar en la db y reenviar a /addItem con los values de nombre y brand
 //*         TODO 2.2.3: el user agrega foto (opcional) y cantidad (obligtorio)
 //* TODO 3: Agregar campo de stock mínimo en los items
-//TODO 4: Agregar botón que sea "Editar item", que en vez de agregar nuevo item, busca uno en la db por qr para cuando llegan nuevos prodcutos
+//* TODO 4: Agregar botón que sea "Editar item", que en vez de agregar nuevo item, busca uno en la db por qr para cuando llegan nuevos prodcutos
 //TODO 5: Agregar botones de "Llegó la compra" y "Hacer la compra"
 //  TODO 5.1: Llegó la compra -> poder agregar items más rápido: escanear todos los prodcutos y despues agregarlos todos de una
 //  TODO 5.2: Hacer la compra -> en base al stock mínimo y stock actual, calcular cuántos hay que comprar
