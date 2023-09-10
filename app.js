@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 const fs = require('fs');
+const { log } = require("console");
 
 const app = express();
 app.use(express.static("public"));
@@ -126,7 +127,6 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
         const { productName, productBrand, productQuantity, productImgURL, productGTIN, productMinQuantity } = req.body;
         const username = req.user.username
         const user = await User.findOne({ username: username });
-
         if (!user) {
             console.log(`Usuario con el username "${username}" no encontrado`);
         } else {
@@ -139,7 +139,8 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
                     _id: uuidv4(),
                     imageName: req.file !== undefined ? req.file.filename : productImgURL,
                     imgIsLocal: false,
-                    minQuantity: productMinQuantity
+                    minQuantity: productMinQuantity,
+                    gtin: productGTIN
                 };
             } else {
                 newItem = {
@@ -149,13 +150,15 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
                     _id: uuidv4(),
                     imageName: req.file !== undefined ? req.file.filename : "",
                     imgIsLocal: true,
-                    minQuantity: productMinQuantity
+                    minQuantity: productMinQuantity,
+                    gtin: productGTIN
                 };
             }
             user.products.push(newItem);
             await user.save();
-            if (productGTIN !== "") {
-                const newItemGTIN = new Item( {
+            const itemInDbGTIN = await Item.findOne({gtin: productGTIN});
+            if (productGTIN !== "" && itemInDbGTIN === null) {
+                const newItemGTIN = new Item({
                     name: newItem.name,
                     brand: newItem.brand,
                     gtin: productGTIN,
@@ -190,7 +193,7 @@ app.post("/getIdToChange", async (req, res) => {
 
 app.post("/editItem", async (req, res) => {
     try {
-        const { productName, productBrand, productQuantity, id, productMinQuantity } = req.body;
+        const { productName, productBrand, productQuantity, id, productMinQuantity, gtin } = req.body;
         const username = req.user.username;
         const user = await User.findOne({ username: username });
         const userProducts = user.products;
@@ -207,7 +210,8 @@ app.post("/editItem", async (req, res) => {
             quantity: productQuantity,
             _id: productToEdit._id,
             imageName: productToEdit.imageName !== undefined ? productToEdit.imageName : undefined,
-            minQuantity: productMinQuantity
+            minQuantity: productMinQuantity,
+            gtin: gtin
         };
         user.products.push(itemChanged);
         await user.save();
@@ -247,6 +251,23 @@ app.post("/deleteItem", async (req, res) => {
 
     } catch (error) {
         console.error(error)
+    }
+});
+
+app.get("/findItemQR", async (req, res) => {
+    res.render("findByQR");
+});
+
+app.post("/findItemQR", async (req, res) => {
+    const productGTINToEdit = req.body.decodedText;
+    const username = req.user.username
+    const user = await User.findOne({ username: username });
+    const userProducts = user.products;
+    const productToEdit = userProducts.find((item) => item.gtin === productGTINToEdit);
+    if (productGTINToEdit !== undefined) {
+        res.json({product: productToEdit});
+    } else {
+        res.send(undefined);
     }
 });
 

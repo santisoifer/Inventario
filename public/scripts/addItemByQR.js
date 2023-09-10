@@ -32,6 +32,7 @@ function onScanSuccess(decodedText, decodedResult) {
                 htmlElements.name.value = data.foundedItem.name;
                 htmlElements.brand.value = data.foundedItem.brand;
                 htmlElements.productImgURL.value = data.foundedItem.imgURL;
+                htmlElements.gtinInput.value = data.foundedItem.gtin;
 
                 htmlElements.message.textContent = "Elemento encontrado!"
                 htmlElements.divMessage.style.display = "block";
@@ -44,7 +45,6 @@ function onScanSuccess(decodedText, decodedResult) {
                 htmlElements.gtinInput.value = decodedText;
                 htmlElements.message.textContent = "Elemento no encontrado! Al agregarlo, se añadira a la base de datos."
                 htmlElements.divMessage.style.display = "block";
-                htmlElements.gtinInput.value = dataToSend.decodedText;
 
                 setTimeout(() => {
                     htmlElements.divMessage.style.display = "none";

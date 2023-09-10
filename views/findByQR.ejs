@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encontrar prodcuto por qr</title>
+</head>
+
+<body>
+    <script src="/node_modules/html5-qrcode/html5-qrcode.min.js"></script>
+    <form action="/editItem" method="post" enctype="multipart/form-data">
+        <label for="productName">Nombre del producto:</label>
+        <input type="text" name="productName" id="productName">
+        <br>
+        <label for="productBrand">Nombre de la marca:</label>
+        <input type="text" name="productBrand" id="productBrand">
+        <br>
+        <label for="productQuantity">Cantidad actual:</label>
+        <input type="number" name="productQuantity" id="productQuantity">
+        <label for="productMinQuantity">Cantidad mínima (cantidad que siempre tiene que haber de este producto):</label>
+        <input type="number" name="productMinQuantity" id="productMinQuantity">
+        <br>
+        <label for="productImgURL">Url de la imagen del producto:</label>
+        <input type="text" name="productImgURL" id="productImgURL" />
+        <input type="hidden" name="productGTIN" id="productGTIN" value="">
+        <button type="submit">Editar producto</button>
+    </form>
+
+    <p>O... seleccione elemento por qr: </p>
+    <div style="width: 500px" id="reader"></div>
+
+    <div class="displayMessage" id="message"
+        style="display:none; border: 3px solid black; position: fixed; width: 300px; height: 200px;">
+        <p></p>
+    </div>
+
+    <script src="scripts/findItemByQR.js"></script>
+</body>
+
+</html>

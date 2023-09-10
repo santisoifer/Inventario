@@ -22,6 +22,7 @@
         <input type="number" name="productMinQuantity" id="productMinQuantity" value="<%=product.minQuantity%>">
         <br>
         <input type="hidden" name="id" value="<%=product._id%>">
+        <input type="hidden" name="gtin" value="<%=product.gtin%>">
         <button type="submit">Editar</button>
     </form>
     <form action="/deleteItem" method="post">

@@ -7,8 +7,8 @@
 </head>
 <body>
     <h1>Inventario</h1>
-    <a href="/addItem"><button type="button">Agregar ítem</button></a>
-    
+    <a href="/addItem"><button type="button">Agregar producto</button></a>
+    <a href="/findItemQR"><button type="button">Buscar producto por QR</button></a>
     <% for (let i = 0; i < products.length; i++) { %>
         <div class="item-container" style="border: 3px solid black; width: 200px; padding: 7px;">
             <h3><%= products[i].name %></h3>
