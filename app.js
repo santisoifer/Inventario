@@ -156,7 +156,7 @@ app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
             }
             user.products.push(newItem);
             await user.save();
-            const itemInDbGTIN = await Item.findOne({gtin: productGTIN});
+            const itemInDbGTIN = await Item.findOne({ gtin: productGTIN });
             if (productGTIN !== "" && itemInDbGTIN === null) {
                 const newItemGTIN = new Item({
                     name: newItem.name,
@@ -193,17 +193,20 @@ app.post("/getIdToChange", async (req, res) => {
 
 app.post("/editItem", async (req, res) => {
     try {
-        const { productName, productBrand, productQuantity, id, productMinQuantity, gtin } = req.body;
+        const { productName, productBrand, productQuantity, id, productMinQuantity, gtin, productID } = req.body;
         const username = req.user.username;
         const user = await User.findOne({ username: username });
         const userProducts = user.products;
-        const productToEdit = userProducts.find((item) => item._id === id);
-
+        let productToEdit;
+        if (productID === undefined) {
+            productToEdit = userProducts.find((item) => item._id === id);
+        } else {
+            productToEdit = userProducts.find((item) => item._id === productID);
+        }
         const index = userProducts.indexOf(productToEdit);
         if (index !== -1) {
             userProducts.splice(index, 1);
         }
-
         const itemChanged = {
             name: productName,
             brand: productBrand,
@@ -211,7 +214,7 @@ app.post("/editItem", async (req, res) => {
             _id: productToEdit._id,
             imageName: productToEdit.imageName !== undefined ? productToEdit.imageName : undefined,
             minQuantity: productMinQuantity,
-            gtin: gtin
+            gtin: productToEdit.gtin
         };
         user.products.push(itemChanged);
         await user.save();
@@ -265,7 +268,7 @@ app.post("/findItemQR", async (req, res) => {
     const userProducts = user.products;
     const productToEdit = userProducts.find((item) => item.gtin === productGTINToEdit);
     if (productGTINToEdit !== undefined) {
-        res.json({product: productToEdit});
+        res.json({ product: productToEdit });
     } else {
         res.send(undefined);
     }

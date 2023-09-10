@@ -27,14 +27,14 @@ function onScanSuccess(decodedText, decodedResult) {
                     quantity: document.querySelector("#productQuantity"),
                     minQuantity: document.querySelector("#productMinQuantity"),
                     imgUrl: document.querySelector("#productImgURL"),
-                    lastProductID: document.querySelector("#lastProductID")
+                    productIDInput: document.querySelector("#productID")
                 }
                 htmlElements.name.value = data.product.name;
                 htmlElements.brand.value = data.product.brand;
                 htmlElements.quantity.value = data.product.quantity;
                 htmlElements.minQuantity.value = data.product.minQuantity;
                 htmlElements.imgUrl.value = data.product.imageName;
-                htmlElements.lastProductID.value = data.lastProduct._id;
+                htmlElements.productIDInput.value = data.product._id;
             } else {
                 // TODO: Agregar cartel que diga "redirigir a agregar producto"
                 console.log("No se encontro el producto");

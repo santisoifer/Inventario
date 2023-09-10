@@ -9,7 +9,7 @@
 
 <body>
     <script src="/node_modules/html5-qrcode/html5-qrcode.min.js"></script>
-    <form action="/editItem" method="post" enctype="multipart/form-data">
+    <form action="/editItem" method="post">
         <label for="productName">Nombre del producto:</label>
         <input type="text" name="productName" id="productName">
         <br>
@@ -24,6 +24,7 @@
         <label for="productImgURL">Url de la imagen del producto:</label>
         <input type="text" name="productImgURL" id="productImgURL" />
         <input type="hidden" name="productGTIN" id="productGTIN" value="">
+        <input type="hidden" name="productID" id="productID" value="">
         <button type="submit">Editar producto</button>
     </form>
 
