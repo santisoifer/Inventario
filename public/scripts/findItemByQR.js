@@ -6,7 +6,7 @@ function onScanSuccess(decodedText, decodedResult) {
         decodedText: decodedText,
         decodedResult: decodedResult
     };
-    fetch('/findItemQR', {
+    fetch('/editItemByQR', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

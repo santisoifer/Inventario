@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llegaron las compras</title>
+</head>
+
+<body>
+    <script src="/node_modules/html5-qrcode/html5-qrcode.min.js"></script>
+
+    <p>Scanee todos los productos que llegaron nuevos: </p>
+    <div style="width: 500px" id="reader"></div>
+
+    <div class="displayMessage" id="message"
+        style="display:none; border: 3px solid black; position: fixed; width: 300px; height: 200px;">
+        <p></p>
+    </div>
+
+    <div class="changeQuantityForm" id="changeQuantityForm">
+        <label for="newItemQuantity" hidden="">Nueva cantidad del producto</label>
+        <input type="text" name="newItemQuantity" id="newItemQuantity" hidden="" value="">
+        <button type="button" id="nextProduct" hidden="">Siguiente</button>
+    </div>
+    
+    <div class="addProductForm" id="addProductForm">
+        <p>Agregar producto: (HIDDEN) </p>
+        <!-- TODO: agregar inputs para que se pueda agregar item -->
+    </div>
+
+    <!-- TODO: Hacer que esté hidden, hasta que se agregue un producto mínimo -->
+    <button type="submit" id="finishScanning">Listo, ya escanee todos los productos</button>
+
+    <script src="scripts/shoppingArrived.js"></script>
+</body>
+
+</html>

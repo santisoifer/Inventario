@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 const fs = require('fs');
-const { log } = require("console");
+const { nextTick } = require("process");
 
 const app = express();
 app.use(express.static("public"));
@@ -257,13 +257,13 @@ app.post("/deleteItem", async (req, res) => {
     }
 });
 
-app.get("/findItemQR", async (req, res) => {
+app.get("/editItemByQR", async (req, res) => {
     res.render("findByQR");
 });
 
-app.post("/findItemQR", async (req, res) => {
+app.post("/editItemByQR", async (req, res) => {
     const productGTINToEdit = req.body.decodedText;
-    const username = req.user.username
+    const username = req.user.username;
     const user = await User.findOne({ username: username });
     const userProducts = user.products;
     const productToEdit = userProducts.find((item) => item.gtin === productGTINToEdit);
@@ -272,6 +272,33 @@ app.post("/findItemQR", async (req, res) => {
     } else {
         res.send(undefined);
     }
+});
+
+app.get("/addItems", async (req, res) => {
+    res.render("addItems");
+});
+
+app.post("/shoppingArrived", async (req, res) => {
+    // TODO: Hay que cambiar el valor de los productos y sino dejarlos así. Se me ocurre sacar los que encuentre y hacer {userProducts, ...products}
+    // const products = req.body.products; //ARRAY con OBJECTS
+    // const username = req.user.username
+    // const user = await User.findOne({ username: username });
+    // const userProducts = user.products;
+    // let newUserProducts = [];
+    // products.forEach(product => {
+    //     const id = product._id;
+    //     const newQuantity = product.newQuantity;
+    //     const productToEdit = userProducts.find((item) => item._id === id);
+    //     if (productToEdit !== undefined) {
+    //         const editedProduct = productToEdit.quantity = newQuantity;
+    //         newUserProducts.push(editedProduct);
+    //     } else {
+    //         newUserProducts.push(product);
+    //     }
+    // });
+    // console.log(newUserProducts);
+    // await user.save();
+    // console.log("Compras añadidas exitosamente");
 });
 
 app.post("/logout", (req, res) => {
@@ -304,6 +331,7 @@ app.post("/logout", (req, res) => {
 //TODO 7: Emepezar con el front
 //  TODO 7.1: poder elegir ente vistas (por ejemplo, una de cuadrados y otra de lista)
 //  TODO 7.2: poder ordenar los prodcutos en base a variables (stock, nombre, etc)
+//  TODO 7.3: Reemplazar el 'feedback' de cuando escaneo qr por bootstrapp modals
 //TODO 8: agregar items (de casa) -> para 1/10 aprox
 // https://www.passportjs.org/packages/passport-remember-me/
 
