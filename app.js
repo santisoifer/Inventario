@@ -279,26 +279,25 @@ app.get("/addItems", async (req, res) => {
 });
 
 app.post("/shoppingArrived", async (req, res) => {
-    // TODO: Hay que cambiar el valor de los productos y sino dejarlos así. Se me ocurre sacar los que encuentre y hacer {userProducts, ...products}
-    // const products = req.body.products; //ARRAY con OBJECTS
-    // const username = req.user.username
-    // const user = await User.findOne({ username: username });
-    // const userProducts = user.products;
-    // let newUserProducts = [];
-    // products.forEach(product => {
-    //     const id = product._id;
-    //     const newQuantity = product.newQuantity;
-    //     const productToEdit = userProducts.find((item) => item._id === id);
-    //     if (productToEdit !== undefined) {
-    //         const editedProduct = productToEdit.quantity = newQuantity;
-    //         newUserProducts.push(editedProduct);
-    //     } else {
-    //         newUserProducts.push(product);
-    //     }
-    // });
-    // console.log(newUserProducts);
-    // await user.save();
-    // console.log("Compras añadidas exitosamente");
+    try {
+        // TODO: Hay que cambiar el valor de user.products
+        const products = req.body.products; //ARRAY con OBJECTS
+        const username = req.user.username
+        const user = await User.findOne({ username: username });
+        const newUserProducts = user.products;
+        products.forEach(updatedProduct => {
+            const originalProduct = newUserProducts.find(item => item._id === updatedProduct._id);
+            if (originalProduct) {
+                originalProduct.quantity = updatedProduct.newQuantity;
+            }
+        });
+        user.products = newUserProducts;
+        await user.save();
+        console.log("Compras añadidas exitosamente");
+    }
+    catch (err) {
+        console.error(err);
+    }
 });
 
 app.post("/logout", (req, res) => {
@@ -325,7 +324,7 @@ app.post("/logout", (req, res) => {
 //* TODO 3: Agregar campo de stock mínimo en los items
 //* TODO 4: Agregar botón que sea "Editar item", que en vez de agregar nuevo item, busca uno en la db por qr para cuando llegan nuevos prodcutos
 //TODO 5: Agregar botones de "Llegó la compra" y "Hacer la compra"
-//  TODO 5.1: Llegó la compra -> poder agregar items más rápido: escanear todos los prodcutos y despues agregarlos todos de una
+//?  TODO 5.1: Llegó la compra -> poder agregar items más rápido: escanear todos los prodcutos y despues agregarlos todos de una
 //  TODO 5.2: Hacer la compra -> en base al stock mínimo y stock actual, calcular cuántos hay que comprar
 //TODO 6: Emepezar con el UX/UI
 //TODO 7: Emepezar con el front
