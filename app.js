@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
     username: String,
     password: String,
     products: Array
-});
+}, { versionKey: false });
 
 userSchema.plugin(passportLocalMongoose);
 
@@ -280,23 +280,26 @@ app.get("/addItems", async (req, res) => {
 
 app.post("/shoppingArrived", async (req, res) => {
     try {
-        // TODO: Hay que cambiar el valor de user.products
-        const products = req.body.products; //ARRAY con OBJECTS
-        const username = req.user.username
-        const user = await User.findOne({ username: username });
+        const products = req.body.products;
+        const userId = req.user._id;
+        const user = await User.findOne({ _id: userId });
         const newUserProducts = user.products;
+        
         products.forEach(updatedProduct => {
             const originalProduct = newUserProducts.find(item => item._id === updatedProduct._id);
             if (originalProduct) {
                 originalProduct.quantity = updatedProduct.newQuantity;
             }
         });
-        user.products = newUserProducts;
+        user.products = [newUserProducts];
+        user.products = user.products[0];
         await user.save();
+        res.json({ statusCode: 200 });
         console.log("Compras añadidas exitosamente");
     }
     catch (err) {
         console.error(err);
+        res.json({ statusCode: 400 });
     }
 });
 

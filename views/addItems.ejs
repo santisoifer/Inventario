@@ -20,7 +20,7 @@
 
     <div class="changeQuantityForm" id="changeQuantityForm">
         <label for="newItemQuantity" hidden="">Nueva cantidad del producto</label>
-        <input type="text" name="newItemQuantity" id="newItemQuantity" hidden="" value="">
+        <input type="number" name="newItemQuantity" id="newItemQuantity" hidden="" value="">
         <button type="button" id="nextProduct" hidden="">Siguiente</button>
     </div>
     
@@ -30,7 +30,7 @@
     </div>
 
     <!-- TODO: Hacer que esté disabled, hasta que se agregue un producto mínimo -->
-    <a href="/"><button type="submit" id="finishScanning">Listo, ya escanee todos los productos</button></a>
+    <button type="submit" id="finishScanning">Listo, ya escanee todos los productos</button>
 
     <script src="scripts/shoppingArrived.js"></script>
 </body>

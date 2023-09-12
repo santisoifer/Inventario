@@ -63,6 +63,11 @@ function onScanSuccess(decodedText, decodedResult) {
                 }
                 return response.json();
             })
+            .then(data => {
+                if (data.statusCode === 200) {
+                    window.location.href = "/";
+                }
+            })
             .catch(error => {
                 console.error('Error:', error);
             });
