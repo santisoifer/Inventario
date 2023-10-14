@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de compras</title>
+</head>
+
+<body>
+    <p>Elementos que están cerca del stock mínimo proporcionado (el formato es cantidad actual/stock mínimo): </p>
+    <ul>
+        <% productsBelowMS.forEach(product => { %>
+            <li><p><%=product.name%> <%=product.brand%>: quedan <%=product.quantity%> / <%=product.minQuantity %>. Queda(n) <%=product.quantity - product.minQuantity %> antes de llegar al stock mínimo</p></li>
+        <% }) %>
+
+    </ul>
+    
+    <hr>
+    <% if (missingItems.length > 0) { %>
+        <p>Elementos que faltan:</p>
+        <ol>
+            <% missingItems.forEach(item => { %>
+                <li><p><%=item.name%> <%=item.brand%> </p></li>
+            <% }) %>
+        </ol>
+    <hr>
+    <% } else if (missingItems === [] ){ %>
+        <p>No hay elementos que faltan!</p>
+    <% } %>
+    
+
+    <a href="/"><button>Volver al dashboard</button></a>
+</body>
+
+</html>

@@ -305,6 +305,16 @@ app.post("/shoppingArrived", async (req, res) => {
     }
 });
 
+app.get("/makePurchases", async (req, res) => {
+    const userId = req.user._id;
+    const user = await User.findOne({ _id: userId });
+    const listOfUserProducts = await user.products;
+
+    const itemsBelowMS = listOfUserProducts.filter((product) => product.quantity - product.minQuantity < 3 && product.quantity > 0);
+    const missingItems = listOfUserProducts.filter((product) => Number(product.quantity) === 0);
+    res.render("makePurchases", {productsBelowMS: itemsBelowMS, missingItems: missingItems});
+});
+
 app.post("/logout", (req, res) => {
     req.logOut(err => {
         if (!err) {
@@ -329,14 +339,14 @@ app.post("/logout", (req, res) => {
 //* TODO 3: Agregar campo de stock mínimo en los items
 //* TODO 4: Agregar botón que sea "Editar item", que en vez de agregar nuevo item, busca uno en la db por qr para cuando llegan nuevos prodcutos
 //TODO 5: Agregar botones de "Llegó la compra" y "Hacer la compra"
-//?  TODO 5.1: Llegó la compra -> poder agregar items más rápido: escanear todos los prodcutos y despues agregarlos todos de una
+//*  TODO 5.1: Llegó la compra -> poder agregar items más rápido: escanear todos los prodcutos y despues agregarlos todos de una
 //  TODO 5.2: Hacer la compra -> en base al stock mínimo y stock actual, calcular cuántos hay que comprar
-//TODO 6: Emepezar con el UX/UI
+//? TODO 6: Emepezar con el UX/UI (en carpeta de UX-UI/)
 //TODO 7: Emepezar con el front
 //  TODO 7.1: poder elegir ente vistas (por ejemplo, una de cuadrados y otra de lista)
 //  TODO 7.2: poder ordenar los prodcutos en base a variables (stock, nombre, etc)
 //  TODO 7.3: Reemplazar el 'feedback' de cuando escaneo qr por bootstrapp modals
-//TODO 8: agregar items (de casa) -> para 1/10 aprox
+//TODO 8: agregar items (de casa) -> para 1/12 aprox
 // https://www.passportjs.org/packages/passport-remember-me/
 
 app.listen(port, () => {
