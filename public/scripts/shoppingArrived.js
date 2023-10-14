@@ -26,7 +26,7 @@ function onScanSuccess(decodedText, decodedResult) {
                 const nextProductButton = document.querySelector("#nextProduct");
                 newItemQuantityInput.removeAttribute("hidden");
                 nextProductButton.removeAttribute("hidden");
-                
+
                 nextProductButton.addEventListener('click', () => { //Cuando hagan click en "siguiente producto"
                     const editedItem = {
                         _id: data.product._id,
@@ -35,17 +35,22 @@ function onScanSuccess(decodedText, decodedResult) {
                     products.push(editedItem);
                     newItemQuantityInput.setAttribute("hidden", "");
                     nextProductButton.setAttribute("hidden", "");
-                    console.log(products);
                 });
             } else {
-                
+
             }
         })
         .catch(error => {
             console.error('Error:', error);
         });
-    
+
     const finishedButton = document.querySelector("#finishScanning");
+    finishedButton.addEventListener("mouseover", () => {
+        const dataToSend = {
+            products: products
+        }
+        console.log(dataToSend);
+    });
     finishedButton.addEventListener("click", () => {
         const dataToSend = {
             products: products
