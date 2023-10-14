@@ -24,6 +24,8 @@ function onScanSuccess(decodedText, decodedResult) {
             if (data.product !== undefined) { // Si el producto existe: 
                 const newItemQuantityInput = document.querySelector("#newItemQuantity");
                 const nextProductButton = document.querySelector("#nextProduct");
+                const warningItemDoesntExist = document.querySelector("#warningItemDoesntExist");
+                warningItemDoesntExist.setAttribute("hidden", "");
                 newItemQuantityInput.removeAttribute("hidden");
                 nextProductButton.removeAttribute("hidden");
                 nextProductButton.addEventListener('click', () => { //Cuando hagan click en "siguiente producto"
@@ -38,8 +40,9 @@ function onScanSuccess(decodedText, decodedResult) {
                         nextProductButton.setAttribute("hidden", "");
                     }
                 });
-            } else {
-
+            } else { // si el producto no existe
+                const warningItemDoesntExist = document.querySelector("#warningItemDoesntExist");
+                warningItemDoesntExist.removeAttribute("hidden");
             }
         })
         .catch(error => {

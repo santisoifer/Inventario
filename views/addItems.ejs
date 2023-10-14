@@ -24,14 +24,14 @@
         <button type="button" id="nextProduct" hidden="">Siguiente</button>
     </div>
     
-    <div class="addProductForm" id="addProductForm">
-        <p>Agregar producto: (HIDDEN) </p>
-        <!-- TODO: agregar inputs para que se pueda agregar item -->
-    </div>
-
+    
     <!-- TODO: Hacer que esté disabled, hasta que se agregue un producto mínimo -->
     <button type="submit" id="finishScanning">Listo, ya escanee todos los productos</button>
-
+    
+    <div class="warningItemDoesntExist" hidden="" id="warningItemDoesntExist" style="border: 3px solid black; position: fixed; width: 300px; height: 200px;">
+        <p>El elemento escaneado no existe. Por favor, agregalo una vez hayas termiando de escanear las compras.</p>
+    </div>
+    
     <script src="scripts/shoppingArrived.js"></script>
 </body>
 
