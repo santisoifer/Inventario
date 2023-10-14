@@ -279,51 +279,30 @@ app.get("/addItems", async (req, res) => {
     res.render("addItems");
 });
 
-//TODO: resolver problema de que solo se guarda una sola cantidad
 app.post("/shoppingArrived", async (req, res) => {
     try {
-        const productsToUpdate = [
-            {
-                _id: "25f2a48c-2eda-4b0c-ac4d-d2642c830e92",
-                newQuantity: 4
-            },
-            {
-                _id: "99fd0a8c-01a1-45ea-a45d-22c9bace21bd",
-                newQuantity: 4
+        const productsToUpdate = req.body.products;
+        const userId = req.user._id;
+        const user = await User.findOne({ _id: userId });
+        const newUserProducts = user.products;
+        productsToUpdate.forEach(async updatedProduct => {
+            const originalProduct = newUserProducts.find(item => item._id === updatedProduct._id);
+            if (originalProduct) {
+                originalProduct.quantity = updatedProduct.newQuantity;
             }
-        ];
-    const userId = req.user._id;
-    const user = await User.findOne({ _id: userId });
-    const newUserProducts = user.products;
+        });
 
-    // let originalProduct = newUserProducts.find(item => item._id === updatedProduct._id);
-    // products.forEach(async updatedProduct => {
-    //     const originalProduct = newUserProducts.find(item => item._id === updatedProduct._id);
-    //     if (originalProduct) {
-    //         originalProduct.quantity = updatedProduct.newQuantity;
-    //     }
-    //     user.products = [newUserProducts];
-    //     user.products = user.products[0];
-    //     await user.save();
-    // });
-    productsToUpdate.forEach(async updatedProduct => {
-        const originalProduct = newUserProducts.find(item => item._id === updatedProduct._id);
-        if (originalProduct) {
-            originalProduct.quantity = updatedProduct.newQuantity;
-        }
-    });
+        user.products = [newUserProducts];
+        user.products = user.products[0];
+        await user.save();
 
-    user.products = [newUserProducts];
-    user.products = user.products[0];
-    await user.save();
-
-    res.json({ statusCode: 200 });
-    console.log("Compras añadidas exitosamente");
-}
+        res.json({ statusCode: 200 });
+        console.log("Compras añadidas exitosamente");
+    }
     catch (err) {
-    console.error(err);
-    res.json({ statusCode: 400 });
-}
+        console.error(err);
+        res.json({ statusCode: 400 });
+    }
 });
 
 app.post("/logout", (req, res) => {

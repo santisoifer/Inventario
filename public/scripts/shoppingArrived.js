@@ -1,9 +1,9 @@
 
+let products = []; // {_id/gtin: 148394, newQuantity: 4} o si hay que agregarlo: {_id/gtin: 148394, name: "asd", brand: "adsda", quantity:Number, minQuantity:Number}
 function onScanSuccess(decodedText, decodedResult) {
     // Qué hacer si se detecta qr
     const scannedAudio = new Audio('../audio/beep_sound.mp3');
     scannedAudio.play();
-    let products = []; // {_id/gtin: 148394, newQuantity: 4} o si hay que agregarlo: {_id/gtin: 148394, name: "asd", brand: "adsda", quantity:Number, minQuantity:Number}
     const gtinScanned = {
         decodedText: decodedText
     };
@@ -26,15 +26,17 @@ function onScanSuccess(decodedText, decodedResult) {
                 const nextProductButton = document.querySelector("#nextProduct");
                 newItemQuantityInput.removeAttribute("hidden");
                 nextProductButton.removeAttribute("hidden");
-
                 nextProductButton.addEventListener('click', () => { //Cuando hagan click en "siguiente producto"
                     const editedItem = {
                         _id: data.product._id,
                         newQuantity: Number(data.product.quantity) + Number(newItemQuantityInput.value)
                     }
-                    products.push(editedItem);
-                    newItemQuantityInput.setAttribute("hidden", "");
-                    nextProductButton.setAttribute("hidden", "");
+                    const alreadyEditedItem = products.find((item) => item._id === editedItem._id);
+                    if (alreadyEditedItem === undefined) {
+                        products.push(editedItem);
+                        newItemQuantityInput.setAttribute("hidden", "");
+                        nextProductButton.setAttribute("hidden", "");
+                    }
                 });
             } else {
 
