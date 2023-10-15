@@ -89,9 +89,77 @@ p {
     .login-form{
         padding: 5px 10px 5px 70px;
         height: 100%;
-        width: 100%;
+        width: 50%;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
     }
+}
+
+/* Register form: */
+
+.register {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    text-align: right;
+}
+
+.register-form{
+    padding: 5px 35px 5px 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 50%;
+}
+
+.register-form__inputs{
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+
+.register-form__section{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.register-form__inputs input {
+    display: block;
+    background-color: transparent;
+    border: 2px solid #0F629C;
+    width: 85%;
+    height: 50px;
+    text-align: right;
+}
+
+.register-form__inputs input:focus {
+    outline: none;
+}
+
+.register-form__inputs button {
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    height: 60px;
+    width: 100%;
+    background-color: #00B2FF;
+    padding: 12px 0px;
+}
+
+.register-img {
+    width: 45%;
+    height: 100%;
+    border-radius: 54px 0px 0px 54px;
+    background-image: url("https://picsum.photos/500/800");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-color: #d3d3d3;
 }
