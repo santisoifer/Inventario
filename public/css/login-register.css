@@ -78,7 +78,7 @@ p {
     width: 45%;
     height: 100%;
     border-radius: 0 54px 54px 0;
-    background-image: url("https://picsum.photos/500/800");
+    background-image: url("../img/login_picture.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -157,7 +157,7 @@ p {
     width: 45%;
     height: 100%;
     border-radius: 54px 0px 0px 54px;
-    background-image: url("https://picsum.photos/500/800");
+    background-image: url("../img/register_picture.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
