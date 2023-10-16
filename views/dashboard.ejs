@@ -1,0 +1,107 @@
+<%- include("./partials/header") %>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    </head>
+
+    <body>
+        <!-- Aside: -->
+        <aside class="aside-panel">
+            <div class="aside-panel__container">
+                <div class="aside-panel__user-section">
+                    <i class="fa-solid fa-user"></i>
+                    <p>
+                        <%=username%>
+                    </p>
+                </div>
+                <div class="aside-panel__links">
+                    <button class="aside-panel__link-active aside-panel__link aside-panel__links__dashboard">
+                        <a href="/dashboard">
+                            <i class="fa-solid fa-house"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </button>
+                    <button class="aside-panel__link aside-panel__links__inventory">
+                        <a href="/inventario">
+                            <i class="fa-solid fa-list"></i>
+                            <p>Inventario</p>
+                        </a>
+                    </button>
+                    <button class="aside-panel__link aside-panel__links__addItem">
+                        <a href="addItem">
+                            <i class="fa-solid fa-plus"></i>
+                            <p>Añadir producto</p>
+                        </a>
+                    </button>
+                    <button class="aside-panel__link aside-panel__links__editItem">
+                        <a href="/editItemByQR">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            <p>Editar producto por QR</p>
+                        </a>
+                        </butto>
+                        <button class="aside-panel__link aside-panel__links__makePurchases">
+                            <a href="/makePurchases">
+                                <i class="fa-solid fa-bag-shopping"></i>
+                                <p>Lista de compras</p>
+                            </a>
+                        </button>
+                        <button class="aside-panel__link aside-panel__links__purchasesArrived">
+                            <a href="/addItems">
+                                <i class="fa-solid fa-truck"></i>
+                                <p>Llegaron las compras</p>
+                            </a>
+                        </button>
+                </div>
+            </div>
+        </aside>
+        
+        <h1>Dashboard</h1>
+        <!-- Quick actions panel: -->
+        <div class="quick-actions section">
+            <p>Acciones Rápidas</p>
+            <div class="quick-actions__links">
+                <button class="quick-actions__links__addItem quick-actions__link">
+                    <i class="fa-solid fa-plus"></i>
+                    <a href="/addItem">Agregar producto</a>
+                </button>
+                <button class="quick-actions__links__editItem quick-actions__link">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <a href="/editItemByQR">Editar producto</a>
+                </button>
+            </div>
+        </div>
+        <!-- Products/items section: -->
+        <div class="some-products section">
+            <% if (products.length === 3) { %>
+                <h3>Algunos productos...</h3>
+                <% for( let i = 0; i < 3; i++ ) { %>
+                    <div class="item-container" style="border: 3px solid black; width: 200px; padding: 7px;">
+                        <h3><%=products[i].name%> <%=products[i].brand%></h3>
+                        
+                        <% if (products[i].imageName !== "") { %>
+                            <img src="<%= products[i].imageName%>">
+                        <% } %>
+                        <p><%=products[i].quantity%> <span class="quantity-left"><%=products[i].name%>s restantes</span></p>
+                        
+                        <form action="/getIdToChange" method="post">
+                            <input type="hidden" name="productId" value="<%=products[i]._id %>">
+                            <button type="submit">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                Editar
+                            </button>
+                        </form>
+                        
+                        <form action="/deleteItem" method="post">
+                            <input type="hidden" name="productId" value="<%= products[i]._id %>">
+                            <button type="submit">
+                                <i class="fa-solid fa-trash"></i>
+                                Eliminar
+                            </button>
+                        </form>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <h3>Parece que tenes menos de 3 elementos en el inventario. Agregá más para empezar a usar la app!</h3>
+                <img src="img/empty.svg">
+            <% } %>
+        </div>
+</body>

@@ -67,7 +67,7 @@ passport.deserializeUser(User.deserializeUser());
 const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-    res.redirect("/inventario");
+    res.redirect("/dashboard");
 });
 
 app.get("/login", (req, res) => {
@@ -83,10 +83,10 @@ app.post("/login", (req, res) => {
     req.login(newUser, err => {
         if (err) {
             console.log(err);
-            res.redirect("/inventario");
+            res.redirect("/dashboard");
         } else {
             passport.authenticate("local")(req, res, () => {
-                res.redirect("/inventario");
+                res.redirect("/dashboard");
             })
         }
     });
@@ -101,7 +101,7 @@ app.post("/register", (req, res) => {
     User.register({ username: req.body.username, products: [] }, req.body.password, (err, user) => {
         if (!err) {
             passport.authenticate("local")(req, res, () => {
-                res.redirect("/inventario");
+                res.redirect("/dashboard");
             });
         } else {
             console.log(err);
@@ -110,10 +110,27 @@ app.post("/register", (req, res) => {
     });
 });
 
+app.get("/dashboard", async (req, res) => {
+    if (req.isAuthenticated()) {
+        const userId = req.user._id;
+        const username = req.user.username;
+        const user = await User.findOne({ _id: userId });
+        const listOfUserProducts = await user.products;
+
+        const someProducts = listOfUserProducts.slice(0,3);
+
+
+        res.render("dashboard", { products: someProducts, username: username });
+    } else {
+        res.redirect("/login")
+    }
+});
+
 app.get("/inventario", async (req, res) => {
     if (req.isAuthenticated()) {
         const products = req.user.products;
-        res.render("index", { products: products });
+        const username = req.user.username;
+        res.render("inventario", { products: products, username: username });
     } else {
         res.redirect("/login")
     }
@@ -312,7 +329,7 @@ app.get("/makePurchases", async (req, res) => {
 
     const itemsBelowMS = listOfUserProducts.filter((product) => product.quantity - product.minQuantity < 3 && product.quantity > 0);
     const missingItems = listOfUserProducts.filter((product) => Number(product.quantity) === 0);
-    res.render("makePurchases", {productsBelowMS: itemsBelowMS, missingItems: missingItems});
+    res.render("makePurchases", { productsBelowMS: itemsBelowMS, missingItems: missingItems });
 });
 
 app.post("/logout", (req, res) => {
@@ -342,10 +359,11 @@ app.post("/logout", (req, res) => {
 //*  TODO 5.1: Llegó la compra -> poder agregar items más rápido: escanear todos los prodcutos y despues agregarlos todos de una
 //*  TODO 5.2: Hacer la compra -> en base al stock mínimo y stock actual, calcular cuántos hay que comprar
 //? TODO 6: Emepezar con el UX/UI (en carpeta de UX-UI/)
-//TODO 7: Emepezar con el front
+//? TODO 7: Emepezar con el front
 //  TODO 7.1: poder elegir ente vistas (por ejemplo, una de cuadrados y otra de lista)
 //  TODO 7.2: poder ordenar los prodcutos en base a variables (stock, nombre, etc)
 //  TODO 7.3: Reemplazar el 'feedback' de cuando escaneo qr por bootstrapp modals
+//  TODO 7.4: Formatear todos los inputs para que no se guarden con espacios, mayus, etc. Por ejemplo: se ingresó AdmIn, guardar admin y mostrar Admin
 //TODO 8: agregar items (de casa) -> para 1/12 aprox
 // https://www.passportjs.org/packages/passport-remember-me/
 

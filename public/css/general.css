@@ -1,0 +1,14 @@
+* {
+    border: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Cambay', sans-serif;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+p {
+    font-size: 18px;
+}
