@@ -118,8 +118,6 @@ app.get("/dashboard", async (req, res) => {
         const listOfUserProducts = await user.products;
 
         const someProducts = listOfUserProducts.slice(0,3);
-
-
         res.render("dashboard", { products: someProducts, username: username });
     } else {
         res.redirect("/login")
@@ -364,7 +362,8 @@ app.post("/logout", (req, res) => {
 //  TODO 7.2: poder ordenar los prodcutos en base a variables (stock, nombre, etc)
 //  TODO 7.3: Reemplazar el 'feedback' de cuando escaneo qr por bootstrapp modals
 //  TODO 7.4: Formatear todos los inputs para que no se guarden con espacios, mayus, etc. Por ejemplo: se ingresó AdmIn, guardar admin y mostrar Admin
-//TODO 8: agregar items (de casa) -> para 1/12 aprox
+//TODO 8: Hacer todo responsive
+//TODO 9: agregar items (de casa) -> para 1/12 aprox
 // https://www.passportjs.org/packages/passport-remember-me/
 
 app.listen(port, () => {
