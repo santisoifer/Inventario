@@ -1,36 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<%- include("./partials/header") %>
     <title>Lista de compras</title>
+    <link rel="stylesheet" href="css/makePurchases.css">
 </head>
 
 <body>
-    <p>Elementos que están cerca del stock mínimo proporcionado (el formato es cantidad actual/stock mínimo): </p>
-    <ul>
-        <% productsBelowMS.forEach(product => { %>
-            <li><p><%=product.name%> <%=product.brand%>: quedan <%=product.quantity%> / <%=product.minQuantity %>. Queda(n) <%=product.quantity - product.minQuantity %> antes de llegar al stock mínimo</p></li>
-        <% }) %>
+    <!-- Aside: -->
+    <aside class="aside-panel">
+        <div class="aside-panel__container">
+            <div class="aside-panel__user">
+                <i class="fa-solid fa-user"></i>
+                <p><%=username%></p>
+            </div>
+            <div class="aside-panel__links">
+                <button onmouseover="addHoverClassToElement(dashboardLink, 'active')" class="aside-panel__link aside-panel__links__dashboard">
+                    <a href="/dashboard">
+                        <i class="fa-solid fa-house"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </button>
+                <button onmouseover="addHoverClassToElement(inventoryLink, 'active')" class="aside-panel__link aside-panel__links__inventory">
+                    <a href="/inventario">
+                        <i class="fa-solid fa-list"></i>
+                        <p>Inventario</p>
+                    </a>
+                </button>
+                <button onmouseover="addHoverClassToElement(addItemLink, 'active')" class="aside-panel__link aside-panel__links__addItem">
+                    <a href="addItem">
+                        <i class="fa-solid fa-plus"></i>
+                        <p>Añadir producto</p>
+                    </a>
+                </button>
+                <button onmouseover="addHoverClassToElement(editItemLink, 'active')" class="aside-panel__link aside-panel__links__editItem">
+                    <a href="/editItemByQR">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        <p>Editar producto por QR</p>
+                    </a>
+                </button>
+                <button class="aside-panel__link aside-panel__links__makePurchases active">
+                    <a href="/makePurchases">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <p>Lista de compras</p>
+                    </a>
+                </button>
+                <button onmouseover="addHoverClassToElement(purchasesArrivedLink, 'active')" class="aside-panel__link aside-panel__links__purchasesArrived">
+                    <a href="/addItems">
+                        <i class="fa-solid fa-truck"></i>
+                        <p>Llegaron las compras</p>
+                    </a>
+                </button>
+                <form onmouseover="addHoverClassToElement(logOutLink, 'active')" action="/logout" method="post" class="aside-panel__link aside-panel__links__logOut">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <button type="submit">Cerrar sesión</button>
+                </form>
 
-    </ul>
-    
-    <hr>
-    <% if (missingItems.length > 0) { %>
-        <p>Elementos que faltan:</p>
-        <ol>
-            <% missingItems.forEach(item => { %>
-                <li><p><%=item.name%> <%=item.brand%> </p></li>
-            <% }) %>
-        </ol>
-    <hr>
-    <% } else if (missingItems === [] ){ %>
-        <p>No hay elementos que faltan!</p>
-    <% } %>
-    
+            </div>
+        </div>
+    </aside>
 
-    <a href="/"><button>Volver al dashboard</button></a>
+    <div class="content">
+        <h1 class="title">Lista de compras</h1>
+        <!-- Few elements remaining section: -->
+        <div class="few-remaining section">
+            <p class="section__description">Elementos que están cerca del stock mínimo proporcionado (el formato es cantidad actual/stock mínimo)</p>
+            <div class="few-remaining__products-list">
+                <ul>
+                    <% productsBelowMS.forEach(product => { %>
+                        <li><p><%=product.name%> <%=product.brand%>: quedan <%=product.quantity%> / <%=product.minQuantity %>. Queda(n) <%=product.quantity - product.minQuantity %> antes de llegar al stock mínimo</p></li>
+                    <% }) %>
+                </ul>
+            </div>
+        </div>
+        <!-- Missing products section: -->
+        <div class="missing_products section">
+            <% if (missingItems.length > 0) { %>
+                <p class="section__description">Elementos que faltan:</p>
+                <ol>
+                    <% missingItems.forEach(item => { %>
+                        <li><p><%=item.name%> <%=item.brand%> </p></li>
+                    <% }) %>
+                </ol>
+            <% } else if (missingItems.length === 0 ){ %>
+                <p class="section__description">No hay elementos faltantes!</p>
+                <div class="empty-cart__container">
+                    <img class="empty-cart__img empty-img" src="img/empty_cart.svg" alt="An empty cart">
+                </div>
+            <% } %>
+        </div>
+</div>
+<script src="scripts/aside.js"></script>
 </body>
-
-</html>

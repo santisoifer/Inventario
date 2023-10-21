@@ -1,0 +1,27 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.section {
+    padding: 25px;
+}
+
+.section__description{
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.few-remaining {
+    flex-grow: 1;
+}
+
+.missing_products{
+    flex-grow: 1;
+}
+
+.empty-cart__container {
+    text-align: center;
+}

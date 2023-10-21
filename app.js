@@ -321,13 +321,15 @@ app.post("/shoppingArrived", async (req, res) => {
 });
 
 app.get("/makePurchases", async (req, res) => {
-    const userId = req.user._id;
-    const user = await User.findOne({ _id: userId });
-    const listOfUserProducts = await user.products;
-
-    const itemsBelowMS = listOfUserProducts.filter((product) => product.quantity - product.minQuantity < 3 && product.quantity > 0);
-    const missingItems = listOfUserProducts.filter((product) => Number(product.quantity) === 0);
-    res.render("makePurchases", { productsBelowMS: itemsBelowMS, missingItems: missingItems });
+    if (req.isAuthenticated()) {
+        const products = req.user.products;
+        const username = req.user.username;
+        const itemsBelowMS = products.filter((product) => product.quantity - product.minQuantity < 3 && product.quantity > 0);
+        const missingItems = products.filter((product) => Number(product.quantity) === 0);
+        res.render("makePurchases", { productsBelowMS: itemsBelowMS, missingItems: missingItems, username: username });
+    } else {
+        res.redirect("/login")
+    }
 });
 
 app.post("/logout", (req, res) => {
