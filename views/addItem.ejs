@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -37,4 +37,109 @@
     <script src="scripts/addItemByQR.js"></script>
 </body>
 
-</html>
+</html> -->
+
+<%- include("partials/header.ejs") %>
+    <title>Añadir producto</title>
+    <link rel="stylesheet" href="css/addProduct.css">
+    </head>
+
+    <body>
+        <script src="/node_modules/html5-qrcode/html5-qrcode.min.js"></script>
+        <!-- Aside: -->
+        <aside class="aside-panel">
+            <div class="aside-panel__container">
+                <div class="aside-panel__user">
+                    <i class="fa-solid fa-user"></i>
+                    <p>
+                        <%=username%>
+                    </p>
+                </div>
+                <div class="aside-panel__links">
+                    <button onmouseover="addHoverClassToElement(dashboardLink, 'active')"
+                        class="aside-panel__link aside-panel__links__dashboard">
+                        <a href="/dashboard">
+                            <i class="fa-solid fa-house"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </button>
+                    <button onmouseover="addHoverClassToElement(inventoryLink, 'active')"
+                        class="aside-panel__link aside-panel__links__inventory">
+                        <a href="/inventario">
+                            <i class="fa-solid fa-list"></i>
+                            <p>Inventario</p>
+                        </a>
+                    </button>
+                    <button class="aside-panel__link aside-panel__links__addItem active">
+                        <a href="addItem">
+                            <i class="fa-solid fa-plus"></i>
+                            <p>Añadir producto</p>
+                        </a>
+                    </button>
+                    <button onmouseover="addHoverClassToElement(editItemLink, 'active')"
+                        class="aside-panel__link aside-panel__links__editItem">
+                        <a href="/editItemByQR">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            <p>Editar producto por QR</p>
+                        </a>
+                    </button>
+                    <button onmouseover="addHoverClassToElement(makePurchasesLink, 'active')"
+                        class="aside-panel__link aside-panel__links__makePurchases">
+                        <a href="/makePurchases">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <p>Lista de compras</p>
+                        </a>
+                    </button>
+                    <button onmouseover="addHoverClassToElement(purchasesArrivedLink, 'active')"
+                        class="aside-panel__link aside-panel__links__purchasesArrived">
+                        <a href="/addItems">
+                            <i class="fa-solid fa-truck"></i>
+                            <p>Llegaron las compras</p>
+                        </a>
+                    </button>
+                    <form onmouseover="addHoverClassToElement(logOutLink, 'active')" action="/logout" method="post"
+                        class="aside-panel__link aside-panel__links__logOut">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <button type="submit">Cerrar sesión</button>
+                    </form>
+
+                </div>
+            </div>
+        </aside>
+
+        <div class="content">
+            <h1 class="title">Añadir producto</h1>
+            <div class="add-product-container section">
+                <form action="/addItem" method="post" class="add-product__form">
+                    <div class="add-product__input">
+                        <label for="productName">Nombre del producto:</label>
+                        <input type="text" name="productName" id="productName">
+                    </div>
+                    <div class="add-product__input">
+                        <label for="productBrand">Nombre de la marca:</label>
+                        <input type="text" name="productBrand" id="productBrand">
+                    </div>
+                    <div class="add-product__input">
+                        <label for="productQuantity">Cantidad actual:</label>
+                        <input type="number" name="productQuantity" id="productQuantity">
+                    </div>
+                    <div class="add-product__input">
+                        <label for="productMinQuantity">Cantidad mínima (cantidad que siempre tiene que haber de este producto):</label>
+                        <input type="number" name="productMinQuantity" id="productMinQuantity">
+                    </div>
+                    <div class="add-product__input">
+                        <label for="productImgURL">Url de la imagen del producto:</label>
+                        <input type="text" name="productImgURL" id="productImgURL" />
+                    </div>
+                    <input type="hidden" name="productGTIN" id="productGTIN" value="">
+                    <button class="submit-button" type="submit">Agregar nuevo producto al inventario</button>
+                </form>
+                <div class="qr-reader" id="reader" style="width: 50%;"></div>
+            </div>
+        </div>
+
+        <script src="scripts/addItemByQR.js"></script>
+        <script src="scripts/aside.js"></script>
+    </body>
+
+    </html>

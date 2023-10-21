@@ -135,7 +135,12 @@ app.get("/inventario", async (req, res) => {
 });
 
 app.get("/addItem", (req, res) => {
-    res.render("addItem");
+    if (req.isAuthenticated()) {
+        const username = req.user.username;
+        res.render("addItem", { username: username });
+    } else {
+        res.redirect("/login")
+    }
 });
 
 app.post("/addItem", upload.single("productImg"), async (req, res, next) => {
