@@ -62,7 +62,8 @@ a:link, a:visited, a:active {
 
 /* Aside: */
 .aside-panel {
-    align-self: center;
+    position: sticky;
+    top: 50px;
     height: 90vh;
     max-width: 20%;
     min-width: 253px;
