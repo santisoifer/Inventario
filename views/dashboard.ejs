@@ -77,33 +77,33 @@
             <div class="some-products section">
                 <% if (products.length === 3) { %>
                     <h3>Algunos productos...</h3>
-                    <% for( let i = 0; i < 3; i++ ) { %>
-                        <div class="item__container">
-                            <div class="item__info">
-                                <h3><%=products[i].name%> <%=products[i].brand%></h3>
+                    <div class="some-products__products">
+                        <% for( let i = 0; i < 3; i++ ) { %>
+                            <div class="item__container">
+                                <h3 class="item__info__title"><%=products[i].name%> <%=products[i].brand%></h3>
                                 <% if (products[i].imageName !== "") { %>
-                                    <img src="<%= products[i].imageName%>">
+                                    <img src="<%= products[i].imageName%>" class="item__info__img">
                                 <% } %>
-                                <p><%=products[i].quantity%> <span class="quantity-left"><%=products[i].name%>s restantes</span></p>
+                                <p class="item__info__quantity"><%=products[i].quantity%> <span class="small"><%=products[i].name%>s restantes</span></p>
+                                <div class="item__forms">
+                                    <form action="/getIdToChange" method="post">
+                                        <input type="hidden" name="productId" value="<%=products[i]._id %>">
+                                        <button type="submit">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            Editar
+                                        </button>
+                                    </form>
+                                    <form action="/deleteItem" method="post">
+                                        <input type="hidden" name="productId" value="<%= products[i]._id %>">
+                                        <button type="submit">
+                                            <i class="fa-solid fa-trash"></i>
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="item__forms">
-                                <form action="/getIdToChange" method="post">
-                                    <input type="hidden" name="productId" value="<%=products[i]._id %>">
-                                    <button type="submit">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                        Editar
-                                    </button>
-                                </form>
-                                <form action="/deleteItem" method="post">
-                                    <input type="hidden" name="productId" value="<%= products[i]._id %>">
-                                    <button type="submit">
-                                        <i class="fa-solid fa-trash"></i>
-                                        Eliminar
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    <% } %>
+                        <% } %>
+                    </div>
                 <% } else { %>
                     <h3>Parece que tenes menos de 3 elementos en el inventario. Agregá más para empezar a usar la app!</h3>
                     <img src="img/empty.svg" class="empty-img">

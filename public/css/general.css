@@ -27,6 +27,9 @@ button {
     background-color: transparent;
 }
 
+i {
+    color: #0F629C;
+}
 
 a:link, a:visited, a:active {
     text-decoration:none;
@@ -35,6 +38,11 @@ a:link, a:visited, a:active {
 
 .small span {
     font-size: 14px;
+}
+
+.section {
+    background-color: #eee;
+    border-radius: 41px;
 }
 
 /* Aside: */
@@ -110,9 +118,40 @@ a:link, a:visited, a:active {
     padding-top: 11px;
 }
 
-/* More general styles */
+/* Item styles */
 
-.section {
-    background-color: #eee;
-    border-radius: 41px;
+.item__container {
+    background-color: #D3F2FF;
+    width: 335px;
+    height: 275px;
+    display: grid;
+    gap: 15px;
+    padding: 15px;
+    grid-template-areas:
+    'img img info info info'
+    'title title title title title'
+    'form form form form form';
+}
+
+.item__info__img{
+    grid-area: img;
+    width: 170px;
+}
+
+.item__info__quantity {
+    font-size: 18px;
+    grid-area: info;
+    align-self: self-end;
+}
+
+.item__info__title {
+    grid-area: title;
+    align-self: center;
+    padding-top: 2px;
+}
+
+.item__forms {
+    display: flex;
+    grid-area: form;
+    justify-content: space-evenly;
 }

@@ -47,6 +47,15 @@
     height: 60%;
     padding: 30px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.some-products__products {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .empty-img{
