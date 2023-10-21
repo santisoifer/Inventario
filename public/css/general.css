@@ -45,6 +45,21 @@ a:link, a:visited, a:active {
     border-radius: 41px;
 }
 
+.content {
+    width: 100%;
+}
+
+.title {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.empty-img{
+    padding-top: 7%;
+    width: 30%;
+}
+
 /* Aside: */
 .aside-panel {
     align-self: center;
@@ -122,11 +137,13 @@ a:link, a:visited, a:active {
 
 .item__container {
     background-color: #D3F2FF;
+    padding: 15px;
+    
     width: 335px;
     height: 275px;
+    
     display: grid;
     gap: 15px;
-    padding: 15px;
     grid-template-areas:
     'img img info info info'
     'title title title title title'
