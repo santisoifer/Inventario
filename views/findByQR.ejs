@@ -76,7 +76,8 @@
                             <p>Inventario</p>
                         </a>
                     </button>
-                    <button onmouseover="addHoverClassToElement(addItemLink, 'active')" class="aside-panel__link aside-panel__links__addItem">
+                    <button onmouseover="addHoverClassToElement(addItemLink, 'active')"
+                        class="aside-panel__link aside-panel__links__addItem">
                         <a href="addItem">
                             <i class="fa-solid fa-plus"></i>
                             <p>Añadir producto</p>
@@ -118,29 +119,47 @@
                 <form action="/editItem" method="post" class="add-product__form">
                     <div class="add-product__input">
                         <label for="productName">Nombre del producto:</label>
-                        <input type="text" name="productName" id="productName">
+                        <input type="text" name="productName" id="productName" disabled="true">
                     </div>
                     <div class="add-product__input">
                         <label for="productBrand">Nombre de la marca:</label>
-                        <input type="text" name="productBrand" id="productBrand">
+                        <input type="text" name="productBrand" id="productBrand" disabled="true">
                     </div>
                     <div class="add-product__input">
                         <label for="productQuantity">Cantidad actual:</label>
-                        <input type="number" name="productQuantity" id="productQuantity">
+                        <input type="number" name="productQuantity" id="productQuantity" disabled="true">
                     </div>
                     <div class="add-product__input">
-                        <label for="productMinQuantity">Cantidad mínima (cantidad que siempre tiene que haber de este producto):</label>
-                        <input type="number" name="productMinQuantity" id="productMinQuantity">
+                        <label for="productMinQuantity">Cantidad mínima (cantidad que siempre tiene que haber de este
+                            producto):</label>
+                        <input type="number" name="productMinQuantity" id="productMinQuantity" disabled="true">
                     </div>
                     <div class="add-product__input">
                         <label for="productImgURL">Url de la imagen del producto:</label>
-                        <input type="text" name="productImgURL" id="productImgURL" />
+                        <input type="text" name="productImgURL" id="productImgURL" disabled="true" />
                     </div>
                     <input type="hidden" name="productGTIN" id="productGTIN" value="">
                     <input type="hidden" name="productID" id="productID" value="">
                     <button class="submit-button" type="submit">Editar producto</button>
                 </form>
                 <div class="qr-reader" id="reader" style="width: 50%;"></div>
+            </div>
+        </div>
+
+        <div class="modal displayMessage" id="msgBox" tabindex="-1" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Elemento no encontrado!</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="msgBox__text">Elemento no encontrado! <a href="/addItem"><button type="button">Agregar nuevo producto</button></a></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Cerrar</button>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -28,8 +28,13 @@ function onScanSuccess(decodedText, decodedResult) {
                 imgUrl: document.querySelector("#productImgURL"),
                 productIDInput: document.querySelector("#productID"),
                 divMsgBox: document.querySelector("#msgBox"),
-                msgBox: document.querySelector("#msgBox p")
+                msgBoxText: document.querySelector("#msgBox__text")
             }
+            htmlElements.name.removeAttribute("disabled");
+            htmlElements.brand.removeAttribute("disabled");
+            htmlElements.quantity.removeAttribute("disabled");
+            htmlElements.minQuantity.removeAttribute("disabled");
+            htmlElements.imgUrl.removeAttribute("disabled");
             if (data.product !== undefined) {
                 htmlElements.name.value = data.product.name;
                 htmlElements.brand.value = data.product.brand;
@@ -37,18 +42,8 @@ function onScanSuccess(decodedText, decodedResult) {
                 htmlElements.minQuantity.value = data.product.minQuantity;
                 htmlElements.imgUrl.value = data.product.imageName;
                 htmlElements.productIDInput.value = data.product._id;
-
-                htmlElements.msgBox.textContent = "Elemento encontrado!"
-                htmlElements.divMsgBox.style.display = "block";
-                setTimeout(() => { htmlElements.divMsgBox.style.display = "none" }, 3500);
-
             } else {
-                htmlElements.msgBox.innerHTML = `Elemento no encontrado! <a href="/addItem"><button type="button">Agregar nuevo producto</button></a>`
                 htmlElements.divMsgBox.style.display = "block";
-
-                setTimeout(() => {
-                    htmlElements.divMsgBox.style.display = "none";
-                }, 3500);
             }
         })
         .catch(error => {
