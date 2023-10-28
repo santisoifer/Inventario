@@ -279,7 +279,12 @@ app.post("/deleteItem", async (req, res) => {
 });
 
 app.get("/editItemByQR", async (req, res) => {
-    res.render("findByQR");
+    if (req.isAuthenticated()) {
+        const username = req.user.username;
+        res.render("findByQR", { username: username });
+    } else {
+        res.redirect("/login")
+    }
 });
 
 app.post("/editItemByQR", async (req, res) => {
