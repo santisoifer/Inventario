@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -31,4 +31,112 @@
     </form>
 </body>
 
-</html>
+</html> -->
+
+<%- include("partials/header.ejs") %>
+    <title>Editar producto</title>
+    <link rel="stylesheet" href="css/editProduct.css">
+    </head>
+
+    <body>
+        <script src="/node_modules/html5-qrcode/html5-qrcode.min.js"></script>
+        <!-- Aside: -->
+        <aside class="aside-panel">
+            <div class="aside-panel__container">
+                <div class="aside-panel__user">
+                    <i class="fa-solid fa-user"></i>
+                    <p>
+                        <%=username%>
+                    </p>
+                </div>
+                <div class="aside-panel__links">
+                    <button onmouseover="addHoverClassToElement(dashboardLink, 'active')"
+                        class="aside-panel__link aside-panel__links__dashboard">
+                        <a href="/dashboard">
+                            <i class="fa-solid fa-house"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </button>
+                    <button onmouseover="addHoverClassToElement(inventoryLink, 'active')"
+                        class="aside-panel__link aside-panel__links__inventory">
+                        <a href="/inventario">
+                            <i class="fa-solid fa-list"></i>
+                            <p>Inventario</p>
+                        </a>
+                    </button>
+                    <button class="aside-panel__link aside-panel__links__addItem"
+                        onmouseover="addHoverClassToElement(addItemLink, 'active')">
+                        <a href="addItem">
+                            <i class="fa-solid fa-plus"></i>
+                            <p>Añadir producto</p>
+                        </a>
+                    </button>
+                    <button onmouseover="addHoverClassToElement(editItemLink, 'active')"
+                        class="aside-panel__link aside-panel__links__editItem">
+                        <a href="/editItemByQR">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            <p>Editar producto por QR</p>
+                        </a>
+                    </button>
+                    <button onmouseover="addHoverClassToElement(makePurchasesLink, 'active')"
+                        class="aside-panel__link aside-panel__links__makePurchases">
+                        <a href="/makePurchases">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <p>Lista de compras</p>
+                        </a>
+                    </button>
+                    <button onmouseover="addHoverClassToElement(purchasesArrivedLink, 'active')"
+                        class="aside-panel__link aside-panel__links__purchasesArrived">
+                        <a href="/addItems">
+                            <i class="fa-solid fa-truck"></i>
+                            <p>Llegaron las compras</p>
+                        </a>
+                    </button>
+                    <form onmouseover="addHoverClassToElement(logOutLink, 'active')" action="/logout" method="post"
+                        class="aside-panel__link aside-panel__links__logOut">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <button type="submit">Cerrar sesión</button>
+                    </form>
+
+                </div>
+            </div>
+        </aside>
+
+        <div class="content">
+            <h1 class="title">Editar producto</h1>
+            <div class="edit-product-container section qr-inputs__container">
+                <div class="inputs-section">
+
+                    <form action="/editItem" method="post" class="edit-product-form">
+                        <label for="productName">Nombre del producto:</label>
+                        <input type="text" name="productName" id="productName" value="<%=product.name%>">
+                        <br>
+                        <label for="productBrand">Nombre de la marca:</label>
+                        <input type="text" name="productBrand" id="productBrand" value="<%=product.brand%>">
+                        <br>
+                        <label for="productQuantity">Cantidad:</label>
+                        <input type="number" name="productQuantity" id="productQuantity" value="<%=product.quantity%>">
+                        <br>
+                        <label for="productMinQuantity">Cantidad mínima:</label>
+                        <input type="number" name="productMinQuantity" id="productMinQuantity"
+                            value="<%=product.minQuantity%>">
+                        <br>
+                        <input type="hidden" name="id" value="<%=product._id%>">
+                        <input type="hidden" name="gtin" value="<%=product.gtin%>">
+                        
+                        <button type="submit" class="submit-button">Editar</button>
+                    </form>
+                    <form action="/deleteItem" method="post" class="delete-form">
+                        <input type="hidden" name="id" value="<%=product._id%>">
+                        <button type="submit" class="delete-form_submit"><i class="fa-solid fa-trash"></i> Eliminar producto</button>
+                    </form>
+                </div>
+                <div class="qr-reader" id="reader" style="width: 50%;"></div>
+            </div>
+        </div>
+
+        <script src="scripts/addItemByQR.js"></script>
+        <script src="scripts/aside.js"></script>
+    </body>
+
+    </html>

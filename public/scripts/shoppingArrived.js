@@ -24,8 +24,8 @@ function onScanSuccess(decodedText, decodedResult) {
             if (data.product !== undefined) { // Si el producto existe: 
                 const newItemQuantityInput = document.querySelector("#newItemQuantity");
                 const nextProductButton = document.querySelector("#nextProduct");
-                const warningItemDoesntExist = document.querySelector("#warningItemDoesntExist");
-                warningItemDoesntExist.setAttribute("hidden", "");
+                // const warningItemDoesntExist = document.querySelector("#warningItemDoesntExist");
+                // warningItemDoesntExist.setAttribute("hidden", "");
                 newItemQuantityInput.removeAttribute("hidden");
                 nextProductButton.removeAttribute("hidden");
                 nextProductButton.addEventListener('click', () => { //Cuando hagan click en "siguiente producto"

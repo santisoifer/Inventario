@@ -204,12 +204,18 @@ app.post("/addItemGTIN", async (req, res) => {
 });
 
 app.post("/getIdToChange", async (req, res) => {
-    const { productId } = req.body;
-    const username = req.user.username
-    const user = await User.findOne({ username: username });
-    const userProducts = user.products;
-    const productToEdit = userProducts.find((item) => item._id === productId);
-    res.render("editItem", { product: productToEdit });
+    if (req.isAuthenticated()) {
+        const userId = req.user._id;
+        const username = req.user.username;
+        const user = await User.findOne({ _id: userId });
+        const userProducts = user.products;
+        const { productId } = req.body;
+        const productToEdit = userProducts.find((item) => item._id === productId);
+
+        res.render("editItem", { username: username, product: productToEdit });
+    } else {
+        res.redirect("/login")
+    }
 });
 
 app.post("/editItem", async (req, res) => {
@@ -301,7 +307,12 @@ app.post("/editItemByQR", async (req, res) => {
 });
 
 app.get("/addItems", async (req, res) => {
-    res.render("addItems");
+    if (req.isAuthenticated()) {
+        const username = req.user.username;
+        res.render("addItems", { username: username });
+    } else {
+        res.redirect("/login")
+    }
 });
 
 app.post("/shoppingArrived", async (req, res) => {
