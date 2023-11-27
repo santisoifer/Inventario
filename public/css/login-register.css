@@ -112,8 +112,6 @@ body{
     justify-content: space-around;
 }
 
-
-
 .register-form__section{
     display: flex;
     flex-direction: column;
@@ -152,4 +150,48 @@ body{
     background-size: cover;
     background-position: center center;
     background-color: #d3d3d3;
+}
+
+@media (max-width: 1200px) {
+    .login-form{
+        padding: 5px 35px 5px 35px;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .login-form__inputs button {
+        font-size: 25px;
+    }
+
+    .login-form__inputs input{
+        width: 100%;
+    }
+
+    .texts {
+        text-align: center;
+    }
+
+    .login-img {
+        display: none;
+    }
+
+    /* Register form: */
+
+    .register-form{
+        padding: 5px 35px 5px 35px;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .register-form__inputs button {
+        font-size: 25px;
+    }
+
+    .register-form__inputs input{
+        width: 100%;
+    }
+
+    .register-img {
+        display: none;
+    }
 }
