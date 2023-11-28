@@ -11,6 +11,7 @@ body {
     width: 100%;
     gap: 70px;
     padding-top: 50px;
+    padding-bottom: 50px;
     font-size: 18px;
 }
 
@@ -153,6 +154,7 @@ a:link, a:visited, a:active {
 .item__container {
     background-color: #D3F2FF;
     padding: 15px;
+    margin: 15px;
     
     width: 335px;
     height: 275px;
@@ -186,4 +188,12 @@ a:link, a:visited, a:active {
     display: flex;
     grid-area: form;
     justify-content: space-evenly;
+}
+
+@media (max-width: 1520px) {
+    body {
+        padding: 25px;
+        padding-top: 81px;
+        display: block;
+    }
 }

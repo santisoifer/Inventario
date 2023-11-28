@@ -1,38 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar prodcuto</title>
-</head>
-
-<body>
-    <form action="/editItem" method="post">
-        <label for="productName">Nombre del producto:</label>
-        <input type="text" name="productName" id="productName" value="<%=product.name%>">
-        <br>
-        <label for="productBrand">Nombre de la marca:</label>
-        <input type="text" name="productBrand" id="productBrand" value="<%=product.brand%>">
-        <br>
-        <label for="productQuantity">Cantidad:</label>
-        <input type="number" name="productQuantity" id="productQuantity" value="<%=product.quantity%>">
-        <br>
-        <label for="productMinQuantity">Cantidad mínima:</label>
-        <input type="number" name="productMinQuantity" id="productMinQuantity" value="<%=product.minQuantity%>">
-        <br>
-        <input type="hidden" name="id" value="<%=product._id%>">
-        <input type="hidden" name="gtin" value="<%=product.gtin%>">
-        <button type="submit">Editar</button>
-    </form>
-    <form action="/deleteItem" method="post">
-        <input type="hidden" name="id" value="<%=product._id%>">
-        <button type="submit">Eliminar producto</button>
-    </form>
-</body>
-
-</html> -->
-
 <%- include("partials/header.ejs") %>
     <title>Editar producto</title>
     <link rel="stylesheet" href="css/editProduct.css">
