@@ -13,3 +13,9 @@
     flex-wrap: wrap;
     gap: 30px;
 }
+
+@media (max-width: 870px) {
+    .products-section__products{
+        justify-content: center;
+    }
+}
