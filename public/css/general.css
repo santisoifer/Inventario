@@ -199,6 +199,14 @@ a:link, a:visited, a:active {
     }
 }
 
+@media (max-width: 1024px) {
+    .qr-inputs__container {
+        flex-direction: column-reverse;
+        align-items: center;
+        padding: 30px;
+    }
+}
+
 @media (max-width: 430px) {
     .item__container {
         margin: 10px;

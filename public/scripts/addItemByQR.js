@@ -1,7 +1,11 @@
+let lastQrScanned;
 function onScanSuccess(decodedText, decodedResult) {
     // Qué hacer si se detecta qr
     const scannedAudio = new Audio('../audio/beep_sound.mp3');
-    scannedAudio.play();
+    if (lastQrScanned !== decodedResult) {
+        scannedAudio.play();
+        lastQrScanned = decodedResult;
+    }
     const dataToSend = {
         decodedText: decodedText,
         decodedResult: decodedResult
@@ -59,3 +63,21 @@ function onScanSuccess(decodedText, decodedResult) {
 const html5QrcodeScanner = new Html5QrcodeScanner(
     "reader", { fps: 20, qrbox: 250 });
 html5QrcodeScanner.render(onScanSuccess);
+
+const scanner = document.getElementById("reader");
+
+
+function applyStyles() {
+    // Check the current screen width and apply styles accordingly
+    if (window.matchMedia('(max-width: 1024px)').matches) {
+        scanner.style.width = "80%";
+    } else if (window.matchMedia('(min-width: 1024px)').matches) {
+        scanner.style.width = "50%";
+    }
+}
+
+// Initial application of styles
+applyStyles();
+
+// Update styles on window resize
+window.addEventListener('resize', applyStyles);

@@ -6,7 +6,7 @@
     <body>
         <script src="/node_modules/html5-qrcode/html5-qrcode.min.js"></script>
         <!-- Aside: -->
-        <aside class="aside-panel">
+        <aside class="aside-panel" id="aside-panel">
             <div class="aside-panel__container">
                 <div class="aside-panel__user">
                     <i class="fa-solid fa-user"></i>
@@ -66,6 +66,73 @@
             </div>
         </aside>
 
+        <nav class="navbar bg-body-tertiary fixed-top" id="collapsable-aside">
+            <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                
+                <aside class="aside-panel">
+                    <div class="aside-panel__container">
+                        <div class="aside-panel__user">
+                            <i class="fa-solid fa-user"></i>
+                            <p><%=username%></p>
+                        </div>
+                        <div class="aside-panel__links">
+                            <button class="aside-panel__link aside-panel__links__dashboard">
+                                <a href="/dashboard">
+                                    <i class="fa-solid fa-house"></i>
+                                    <p>Dashboard</p>
+                                </a>
+                            </button>
+                            <button class="aside-panel__link aside-panel__links__inventory">
+                                <a href="/inventario">
+                                    <i class="fa-solid fa-list"></i>
+                                    <p>Inventario</p>
+                                </a>
+                            </button>
+                            <button class="aside-panel__link aside-panel__links__addItem active">
+                                <a href="addItem">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <p>Añadir producto</p>
+                                </a>
+                            </button>
+                            <button class="aside-panel__link aside-panel__links__editItem">
+                                <a href="/editItemByQR">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    <p>Editar producto por QR</p>
+                                </a>
+                            </button>
+                            <button class="aside-panel__link aside-panel__links__makePurchases">
+                                <a href="/makePurchases">
+                                    <i class="fa-solid fa-bag-shopping"></i>
+                                    <p>Lista de compras</p>
+                                </a>
+                            </button>
+                            <button class="aside-panel__link aside-panel__links__purchasesArrived">
+                                <a href="/addItems">
+                                    <i class="fa-solid fa-truck"></i>
+                                    <p>Llegaron las compras</p>
+                                </a>
+                            </button>
+                            <form action="/logout" method="post" class="aside-panel__link aside-panel__links__logOut">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <button type="submit">Cerrar sesión</button>
+                            </form>
+        
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            </div>
+        </div>
+        </nav>
+
         <div class="content">
             <h1 class="title">Añadir producto</h1>
             <div class="edit-product-container section qr-inputs__container">
@@ -96,9 +163,10 @@
                 <div class="qr-reader" id="reader" style="width: 50%;"></div>
             </div>
         </div>
-
-        <script src="scripts/addItemByQR.js"></script>
-        <script src="scripts/aside.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="scripts/addItemByQR.js"></script>
+    <script src="scripts/aside.js"></script>
     </body>
 
     </html>

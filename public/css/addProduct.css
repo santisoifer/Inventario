@@ -39,3 +39,42 @@
     border: 3px solid #0F629C;
     height: 50px;
 }
+
+@media (max-width: 1024px) {
+    .add-product__form {
+        width: 100%;
+    }
+
+    .submit-button {
+        margin: 25px 25px 0 25px;
+        border-radius: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .submit-button {
+        height: 100px;
+    }
+}
+
+@media (min-width: 296px) and (max-width: 499px) {
+    .submit-button {
+        height: 125px;
+    }
+    #reader__dashboard_section_csr {
+        height: 85px;
+        padding-top: 10px;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 295px) {
+    .submit-button {
+        height: 125px;
+    }
+    #reader__dashboard_section_csr {
+        height: 85px;
+        margin-bottom: 15px;
+        padding-top: 0px;
+    }
+}
