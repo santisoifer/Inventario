@@ -66,3 +66,9 @@
 .qr-reader {
     align-self: center;
 }
+
+@media (max-width: 1024px) {
+    .inputs-section {
+        width: 100%;
+    }
+}
