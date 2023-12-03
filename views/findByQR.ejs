@@ -1,50 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encontrar prodcuto por qr</title>
-</head>
-
-<body>
-    <script src="/node_modules/html5-qrcode/html5-qrcode.min.js"></script>
-    <form action="/editItem" method="post">
-        <label for="productName">Nombre del producto:</label>
-        <input type="text" name="productName" id="productName">
-        <br>
-        <label for="productBrand">Nombre de la marca:</label>
-        <input type="text" name="productBrand" id="productBrand">
-        <br>
-        <label for="productQuantity">Cantidad actual:</label>
-        <input type="number" name="productQuantity" id="productQuantity">
-        <label for="productMinQuantity">Cantidad mínima (cantidad que siempre tiene que haber de este producto):</label>
-        <input type="number" name="productMinQuantity" id="productMinQuantity">
-        <br>
-        <label for="productImgURL">Url de la imagen del producto:</label>
-        <input type="text" name="productImgURL" id="productImgURL" />
-        <input type="hidden" name="productGTIN" id="productGTIN" value="">
-        <input type="hidden" name="productID" id="productID" value="">
-        <button type="submit">Editar producto</button>
-    </form>
-
-    <p>O... seleccione elemento por qr: </p>
-    <div style="width: 500px" id="reader"></div>
-
-    <div class="displayMessage" id="message"
-        style="display:none; border: 3px solid black; position: fixed; width: 300px; height: 200px;">
-        <p></p>
-    </div>
-
-    <div class="displayMessage" id="msgBox" style="display:none; border: 3px solid black; position: fixed; width: 300px; height: 200px;">
-        <p></p>
-    </div>
-
-    <script src="scripts/findItemByQR.js"></script>
-</body>
-
-</html> -->
-
 <%- include("partials/header.ejs") %>
     <title>Buscar producto por QR</title>
     <link rel="stylesheet" href="css/addProduct.css">
@@ -53,7 +6,7 @@
     <body>
         <script src="/node_modules/html5-qrcode/html5-qrcode.min.js"></script>
         <!-- Aside: -->
-        <aside class="aside-panel">
+        <aside class="aside-panel" id="aside-panel">
             <div class="aside-panel__container">
                 <div class="aside-panel__user">
                     <i class="fa-solid fa-user"></i>
@@ -113,6 +66,73 @@
             </div>
         </aside>
 
+        <nav class="navbar bg-body-tertiary fixed-top" id="collapsable-aside">
+            <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                
+                <aside class="aside-panel">
+                    <div class="aside-panel__container">
+                        <div class="aside-panel__user">
+                            <i class="fa-solid fa-user"></i>
+                            <p><%=username%></p>
+                        </div>
+                        <div class="aside-panel__links">
+                            <button class="aside-panel__link aside-panel__links__dashboard">
+                                <a href="/dashboard">
+                                    <i class="fa-solid fa-house"></i>
+                                    <p>Dashboard</p>
+                                </a>
+                            </button>
+                            <button class="aside-panel__link aside-panel__links__inventory">
+                                <a href="/inventario">
+                                    <i class="fa-solid fa-list"></i>
+                                    <p>Inventario</p>
+                                </a>
+                            </button>
+                            <button class="aside-panel__link aside-panel__links__addItem">
+                                <a href="addItem">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <p>Añadir producto</p>
+                                </a>
+                            </button>
+                            <button class="aside-panel__link aside-panel__links__editItem active">
+                                <a href="/editItemByQR">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    <p>Editar producto por QR</p>
+                                </a>
+                            </button>
+                            <button class="aside-panel__link aside-panel__links__makePurchases">
+                                <a href="/makePurchases">
+                                    <i class="fa-solid fa-bag-shopping"></i>
+                                    <p>Lista de compras</p>
+                                </a>
+                            </button>
+                            <button class="aside-panel__link aside-panel__links__purchasesArrived">
+                                <a href="/addItems">
+                                    <i class="fa-solid fa-truck"></i>
+                                    <p>Llegaron las compras</p>
+                                </a>
+                            </button>
+                            <form action="/logout" method="post" class="aside-panel__link aside-panel__links__logOut">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <button type="submit">Cerrar sesión</button>
+                            </form>
+        
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            </div>
+        </div>
+        </nav>
+
         <div class="content">
             <h1 class="title">Buscar producto por QR</h1>
             <div class="add-product-container section">
@@ -163,6 +183,7 @@
             </div>
         </div>
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script src="scripts/findItemByQR.js"></script>
         <script src="scripts/aside.js"></script>
     </body>

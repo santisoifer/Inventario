@@ -205,6 +205,12 @@ a:link, a:visited, a:active {
         align-items: center;
         padding: 30px;
     }
+    
+    .add-product-container {
+        flex-direction: column-reverse;
+        align-items: center;
+        padding: 30px;
+    }
 }
 
 @media (max-width: 430px) {
