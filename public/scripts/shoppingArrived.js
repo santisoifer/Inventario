@@ -87,3 +87,20 @@ function onScanSuccess(decodedText, decodedResult) {
 const html5QrcodeScanner = new Html5QrcodeScanner(
     "reader", { fps: 20, qrbox: 250 });
 html5QrcodeScanner.render(onScanSuccess);
+
+const reader = document.querySelector("#reader");
+
+function applyStyles() {
+    // Check the current screen width and apply styles accordingly
+    if (window.matchMedia('(max-width: 1060px)').matches) {
+        reader.style.width = "100%";
+    } else {
+        reader.style.width = "50%";
+    }
+}
+
+// Initial application of styles
+applyStyles();
+
+// Update styles on window resize
+window.addEventListener('resize', applyStyles);

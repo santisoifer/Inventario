@@ -4,3 +4,55 @@
     display: flex;
     align-items: center;
 }
+
+button {
+    background-color: #d3f2ff8e;
+    border: 3px solid #0f619cbc;
+    height: 50px;
+}
+
+.changeQuantityForm{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#nextProduct {
+    width: 30%;
+    border-radius: 30px;
+    margin-left: 15px;
+}
+
+@media (max-width: 1150px) {
+    .inputs-section {
+        flex-direction: column-reverse;
+        gap: 40px;
+        padding: 60px;
+    }
+
+    .changeQuantityForm{
+        justify-content: center;
+        gap: 30px;
+    }
+}
+@media (max-width: 870px) {
+    .changeQuantityForm{
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .changeQuantityForm button {
+        height: 80px;
+    }
+
+    .inputs-section {
+        padding: 30px;
+    }
+
+}
+
+@media (max-width: 450px) {
+    #nextProduct {
+        width: 70%;
+        height: 100px;
+    }
+}
